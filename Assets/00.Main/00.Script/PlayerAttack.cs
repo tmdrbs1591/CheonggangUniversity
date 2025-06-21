@@ -54,8 +54,10 @@ public class PlayerAttack : MonoBehaviour
     public void Fire(Vector2 direction)
     {
         CameraShake.instance.ShakeCamera(2f, 0.2f);
-        float maxDistance = 15f;
+        AudioManager.instance?.PlaySound(transform.position, "레이저", Random.Range(1f, 1.2f), 1f);
+        AudioManager.instance?.PlaySound(transform.position, "총", Random.Range(1f, 1.2f), 1f);
 
+        float maxDistance = 15f;
         RaycastHit2D[] hits = Physics2D.RaycastAll(firePoint.position, direction, maxDistance);
 
         Vector3 endPoint = firePoint.position + (Vector3)(direction * maxDistance);
@@ -63,15 +65,29 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (hit.collider != null && hit.collider.CompareTag("Object"))
+            if (hit.collider == null) continue;
+
+            float dist = Vector3.Distance(firePoint.position, hit.point);
+            if (dist >= closestDistance) continue;
+
+            // 벽인 경우: 레이저 끝점만 조정
+            if (hit.collider.CompareTag("Wall"))
             {
-                float dist = Vector3.Distance(firePoint.position, hit.point);
-                if (dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    endPoint = hit.point;
-                    ObjectPool.SpawnFromPool("BulletEffect",hit.transform.position);
-                }
+                closestDistance = dist;
+                endPoint = hit.point;
+                ObjectPool.SpawnFromPool("BulletEffect", hit.point);
+                continue;
+            }
+
+            // IDamageable을 가진 오브젝트 처리
+            IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                closestDistance = dist;
+                endPoint = hit.point;
+
+                ObjectPool.SpawnFromPool("BulletEffect", hit.point);
+                damageable.TakeDamage(1);
             }
         }
 

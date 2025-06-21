@@ -30,10 +30,14 @@ public class PlayerBase : MonoBehaviour
 
         Flip(dir.x);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
         {
             playerAttack.Fire(dir);
-            anim.SetTrigger("Attack");
+            anim.SetTrigger("Shot");
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            playerAttack.Fire(dir);
         }
 
         currentState?.Update(this);
