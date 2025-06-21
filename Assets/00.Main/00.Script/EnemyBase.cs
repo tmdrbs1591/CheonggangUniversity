@@ -14,6 +14,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
         hp -= amount;
         StartCoroutine(Cor_HitMaterialChange());
         Debug.Log($"Enemy damaged! HP: {hp}");
+        CameraShake.instance.ShakeCamera(5f, 0.15f);
+
+       
 
         if (hp <= 0)
         {
@@ -24,6 +27,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     private void Die()
     {
         Debug.Log("Enemy died!");
+        ObjectPool.SpawnFromPool("DieEffect", transform.position);
         Destroy(gameObject);
     }
 

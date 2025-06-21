@@ -76,6 +76,7 @@ public class PlayerAttack : MonoBehaviour
                 closestDistance = dist;
                 endPoint = hit.point;
                 ObjectPool.SpawnFromPool("BulletEffect", hit.point);
+                ObjectPool.SpawnFromPool("HitEffect", hit.point);
                 continue;
             }
 
@@ -87,6 +88,7 @@ public class PlayerAttack : MonoBehaviour
                 endPoint = hit.point;
 
                 ObjectPool.SpawnFromPool("BulletEffect", hit.point);
+                ObjectPool.SpawnFromPool("HitEffect", hit.point);
                 damageable.TakeDamage(1);
             }
         }
@@ -120,6 +122,6 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
 
-        Destroy(lr.gameObject);
+        ObjectPool.ReturnToPool("BulletLaser", lr.gameObject);
     }
 }
