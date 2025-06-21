@@ -35,7 +35,8 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (hit.collider != null && hit.collider.CompareTag("Object"))
+            IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+            if (damageable != null)
             {
                 float dist = Vector3.Distance(startPoint, hit.point);
                 if (dist < closestDistance)

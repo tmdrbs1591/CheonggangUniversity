@@ -7,7 +7,7 @@ public class EffectReturn : MonoBehaviour
 {
     [SerializeField] private string name;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(Cor_ReturnToPool(name));
     }

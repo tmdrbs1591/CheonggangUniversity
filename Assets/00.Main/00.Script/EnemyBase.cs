@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] private Material originalMaterial;
     [SerializeField] private SpriteRenderer spriteren;
 
+    private Coroutine hitCoroutine;
     public void Awake()
     {
         hp = maxHp;
@@ -21,7 +22,13 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         hp -= amount;
-        StartCoroutine(Cor_HitMaterialChange());
+
+        if (hitCoroutine != null)
+        {
+            StopCoroutine(hitCoroutine);
+        }
+        hitCoroutine = StartCoroutine(Cor_HitMaterialChange());
+
         Debug.Log($"Enemy damaged! HP: {hp}");
         CameraShake.instance.ShakeCamera(5f, 0.15f);
 
@@ -32,7 +39,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
             Die();
         }
     }
-
     private void Die()
     {
         Debug.Log("Enemy died!");
@@ -43,7 +49,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
     private IEnumerator Cor_HitMaterialChange()
     {
         spriteren.material = hitMaterial;
+
         yield return new WaitForSeconds(0.2f);
+
         spriteren.material = originalMaterial;
+
+        hitCoroutine = null; 
     }
 }
