@@ -53,6 +53,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Fire(Vector2 direction)
     {
+        CameraShake.instance.ShakeCamera(2f, 0.2f);
         float maxDistance = 15f;
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(firePoint.position, direction, maxDistance);
@@ -69,11 +70,12 @@ public class PlayerAttack : MonoBehaviour
                 {
                     closestDistance = dist;
                     endPoint = hit.point;
+                    ObjectPool.SpawnFromPool("BulletEffect",hit.transform.position);
                 }
             }
         }
 
-        GameObject go = Instantiate(laserPrefab);
+        GameObject go = ObjectPool.SpawnFromPool("BulletLaser", transform.position);
         LineRenderer lr = go.GetComponent<LineRenderer>();
 
         // 길이에 비례한 지속 시간 계산

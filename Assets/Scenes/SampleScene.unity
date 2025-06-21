@@ -749,6 +749,7 @@ GameObject:
   - component: {fileID: 545246482}
   - component: {fileID: 545246481}
   - component: {fileID: 545246480}
+  - component: {fileID: 545246483}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -832,6 +833,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &545246483
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545246478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,6 +1329,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confiner: {fileID: 1010574134}
+--- !u!1 &886708671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 886708673}
+  - component: {fileID: 886708672}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &886708672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886708671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8805b6ba91fe4144c9dab65e6e57dbc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolList:
+  - poolCount: 10
+    poolName: BulletEffect
+    poolObject: {fileID: 4099757707819287619, guid: edb084febcbc93a4c863a29b6a3f4306, type: 3}
+    parentObject: {fileID: 0}
+  - poolCount: 2
+    poolName: BulletLaser
+    poolObject: {fileID: 1492852177931934668, guid: 73b3078356bf77549839ddb0a523b27a, type: 3}
+    parentObject: {fileID: 0}
+--- !u!4 &886708673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886708671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6178312, y: 1.4340005, z: -0.0204283}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1010574131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,6 +1393,7 @@ GameObject:
   - component: {fileID: 1010574133}
   - component: {fileID: 1010574132}
   - component: {fileID: 1010574134}
+  - component: {fileID: 1010574135}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -1399,6 +1471,18 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 771643014}
   m_Damping: 0.5
   m_MaxWindowSize: -1
+--- !u!114 &1010574135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010574131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a6f38bc2e245004ea3e5ce980bf777a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1184418569
 GameObject:
   m_ObjectHideFlags: 0
@@ -3253,3 +3337,4 @@ SceneRoots:
   - {fileID: 771643016}
   - {fileID: 1928123943}
   - {fileID: 1440440737}
+  - {fileID: 886708673}
