@@ -1,13 +1,16 @@
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    private SpriteRenderer spriteRenderer;
-    private Animator anim;
+
+    public Transform firePoint;
+    public GameObject laserPrefab;
+    public PlayerAttack playerAttack;
 
     private IPlayerState currentState;
+    private SpriteRenderer spriteRenderer;
+    private Animator anim;
 
     void Start()
     {
@@ -19,6 +22,20 @@ public class PlayerBase : MonoBehaviour
 
     void Update()
     {
+        Vector3 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.z = Camera.main.transform.position.z * -1f;  // z값 보정
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+        Vector2 dir = (mouseWorldPos - transform.position).normalized;
+
+        Flip(dir.x);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            playerAttack.Fire(dir);
+            anim.SetTrigger("Attack");
+        }
+
         currentState?.Update(this);
     }
 
@@ -33,23 +50,19 @@ public class PlayerBase : MonoBehaviour
     {
         anim.SetTrigger(name);
     }
-    public void AnimationBool(string name,bool bl)
+
+    public void AnimationBool(string name, bool bl)
     {
-        anim.SetBool(name,bl);
+        anim.SetBool(name, bl);
     }
+
     public void Move(float dir)
     {
         transform.Translate(Vector3.right * dir * moveSpeed * Time.deltaTime);
-        Flip(dir);
     }
 
     private void Flip(float dir)
     {
-        if (dir > 0)
-            transform.localScale = new Vector3(4, 4, 4);  // 기본 스케일
-        else if (dir < 0)
-            transform.localScale = new Vector3(-4, 4, 4); // x축 반전
+        spriteRenderer.flipX = dir < 0;
     }
-
-
 }
