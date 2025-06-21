@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7588275339954866758}
   - component: {fileID: 3316860375582599112}
   - component: {fileID: 3907626644424412865}
+  - component: {fileID: 356721431212125812}
   m_Layer: 0
   m_Name: Hit Effect
   m_TagString: Untagged
@@ -106,3 +107,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &356721431212125812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7163608688303391338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e5b818f4ae79545911aab183936230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: HitEffect

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6930137266499944493}
   - component: {fileID: 4347058367062856874}
   - component: {fileID: 8668106264181799773}
+  - component: {fileID: 4673294043224055481}
   m_Layer: 0
   m_Name: debris
   m_TagString: Untagged
@@ -4888,3 +4889,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4673294043224055481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099757707819287619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e5b818f4ae79545911aab183936230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: BulletEffect

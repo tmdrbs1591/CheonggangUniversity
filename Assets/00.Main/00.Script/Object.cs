@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Object : MonoBehaviour,IDamageable
 {
-    public int hp = 10;
+    public float hp = 10;
     [SerializeField] private Material hitMaterial;
 
     [SerializeField] private Material originalMaterial;
     [SerializeField] private SpriteRenderer spriteren;
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         hp -= amount;
         StartCoroutine(Cor_HitMaterialChange());

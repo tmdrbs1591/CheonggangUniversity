@@ -1,22 +1,31 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int hp = 10;
+
+    [SerializeField] private float maxHp = 10;
+    [SerializeField] private float hp = 10;
+
+    [SerializeField] private Slider hpSlider;
 
     [SerializeField] private Material hitMaterial;
     [SerializeField] private Material originalMaterial;
     [SerializeField] private SpriteRenderer spriteren;
 
-    public void TakeDamage(int amount)
+    public void Awake()
+    {
+        hp = maxHp;
+    }
+    public void TakeDamage(float amount)
     {
         hp -= amount;
         StartCoroutine(Cor_HitMaterialChange());
         Debug.Log($"Enemy damaged! HP: {hp}");
         CameraShake.instance.ShakeCamera(5f, 0.15f);
 
-       
+        hpSlider.value = hp / maxHp;
 
         if (hp <= 0)
         {
