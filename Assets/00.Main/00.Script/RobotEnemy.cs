@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RobotEnemy : EnemyBase
 {
+    [SerializeField] protected Transform attackPos;
+    [SerializeField] protected Vector2 attackBoxSize;
     private void Start()
     {
         base.Start();
@@ -23,7 +25,7 @@ public class RobotEnemy : EnemyBase
         yield return new WaitForSeconds(1f);
         dangerLine.SetActive(false);
 
-        Debug.Log("공격!");
+        Damage();
         // 쿨타임 시작
         currentCoolTime = attackCoolTime;
 
@@ -33,4 +35,27 @@ public class RobotEnemy : EnemyBase
         isAttacking = false;
     }
 
+    private void Damage()
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(attackPos.position, attackBoxSize, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            Debug.Log("공격!");
+            if (collider != null)
+            {
+                if (collider.gameObject.CompareTag("Player"))
+                {
+                    collider.GetComponent<PlayerBase>().TakeDamage(1);
+
+                }
+
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(attackPos.position, attackBoxSize);
+    }
 }

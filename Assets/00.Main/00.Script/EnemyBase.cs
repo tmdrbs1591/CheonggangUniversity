@@ -130,6 +130,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         EXPSpawn();
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
+        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1f, 1.2f), 1f);
 
         yield return new WaitForSeconds(2f);
 

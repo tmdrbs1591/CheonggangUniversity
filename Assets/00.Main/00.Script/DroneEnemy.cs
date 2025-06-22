@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DroneEnemy : EnemyBase
 {
+    [SerializeField] private GameObject Bullet;
     private void Start()
     {
         base.Start();
@@ -15,38 +16,63 @@ public class DroneEnemy : EnemyBase
     }
     protected override IEnumerator Cor_Attack()
     {
-         isAttacking = true;
-    rb.velocity = Vector2.zero;
+        isAttacking = true;
+        rb.velocity = Vector2.zero;
 
-    dangerLineRenderer.enabled = true;
+        dangerLineRenderer.enabled = true;
 
-    float elapsedTime = 0f;
+        float elapsedTime = 0f;
 
-    while (elapsedTime < lineDuration)
-    {
-        if (playerTransform == null) yield break;
+        while (elapsedTime < lineDuration)
+        {
+            if (playerTransform == null) yield break;
 
-        Vector2 startPoint = transform.position;
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
-        Vector2 endPoint = startPoint + direction * 20f;
+            Vector2 startPoint = transform.position;
+            Vector2 direction = (playerTransform.position - transform.position).normalized;
+            Vector2 endPoint = startPoint + direction * 20f;
 
-        dangerLineRenderer.SetPosition(0, startPoint);
-        dangerLineRenderer.SetPosition(1, endPoint);
+            dangerLineRenderer.SetPosition(0, startPoint);
+            dangerLineRenderer.SetPosition(1, endPoint);
 
-        elapsedTime += Time.deltaTime;
-        yield return null; // 다음 프레임까지 대기 (실시간 업데이트)
+            elapsedTime += Time.deltaTime;
+            yield return null; // 다음 프레임까지 대기 (실시간 업데이트)
+        }
+
+        dangerLineRenderer.enabled = false;
+
+        Debug.Log("공격!");
+
+        // 플레이어 방향으로 불렛 발사
+        BulletFire();
+
+        // 쿨타임 시작
+        currentCoolTime = attackCoolTime;
+
+        yield return new WaitForSeconds(1f);
+
+        isAttacking = false;
     }
 
-    dangerLineRenderer.enabled = false;
+    void BulletFire()
+    {
+        if (playerTransform == null) return;
 
-    Debug.Log("공격!");
+        GameObject bulletObj = ObjectPool.SpawnFromPool("DroneBullet", transform.position);
 
-    // 쿨타임 시작
-    currentCoolTime = attackCoolTime;
+        if (bulletObj != null)
+        {
+            Vector2 shootDir = (playerTransform.position - transform.position).normalized;
 
-    yield return new WaitForSeconds(1f);
+            Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+            if (bulletRb != null)
+            {
+                float bulletSpeed = 15f;  // 원하는 속도 조절
+                bulletRb.velocity = shootDir * bulletSpeed;
+            }
 
-    isAttacking = false;
+            float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+            bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 
     public override void TakeDamage(float amount)
@@ -96,6 +122,7 @@ public class DroneEnemy : EnemyBase
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
         rb.gravityScale = 2f;
+        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1f, 1.2f), 1f);
 
         yield return new WaitForSeconds(2f);
 

@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("Stat Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float maxHp;
+    [SerializeField] private float currentHp;
     public float jumpForce = 10f;
     public int maxJumpCount = 2;
     public int currentJumpCount;
@@ -56,6 +58,7 @@ public class PlayerBase : MonoBehaviour
         ChangeState(new PlayerIdleState());
         currentJumpCount = maxJumpCount;
 
+        currentHp = maxHp;
     }
 
 
@@ -174,6 +177,13 @@ public class PlayerBase : MonoBehaviour
         ghost.makeGhost = false;
 
         ghostCoroutine = null; // 코루틴 종료 처리
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHp -= damage;
+        CameraShake.instance.ShakeCamera(5f, 0.15f);
+
     }
 
 }

@@ -431,6 +431,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1347410788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &293330376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 293330377}
+  m_Layer: 8
+  m_Name: attackPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &293330377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293330376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.61, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 895291713}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &293766122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,6 +1713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  maxHp: 0
+  currentHp: 0
   jumpForce: 12
   maxJumpCount: 2
   currentJumpCount: 0
@@ -3334,6 +3367,14 @@ MonoBehaviour:
     poolName: EXP
     poolObject: {fileID: 5353537644325710555, guid: e89489e92fad1c548a39ec02d5c0a8b6, type: 3}
     parentObject: {fileID: 0}
+  - poolCount: 10
+    poolName: DroneBullet
+    poolObject: {fileID: 8679922609468186201, guid: 187baebecc2583b4f9d69879205f8de2, type: 3}
+    parentObject: {fileID: 0}
+  - poolCount: 10
+    poolName: DroneBulletEffect
+    poolObject: {fileID: 2229933217575358987, guid: 6784ab34c53ef1545b5241b704095b45, type: 3}
+    parentObject: {fileID: 0}
 --- !u!4 &886708673
 Transform:
   m_ObjectHideFlags: 0
@@ -3438,6 +3479,7 @@ Transform:
   - {fileID: 448431154}
   - {fileID: 50478587}
   - {fileID: 298533301}
+  - {fileID: 293330377}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &895291714
@@ -3533,6 +3575,8 @@ MonoBehaviour:
   attackRange: 3
   moveSpeed: 3
   attackCoolTime: 2
+  attackPos: {fileID: 293330377}
+  attackBoxSize: {x: 2.67, y: 0.77}
 --- !u!50 &895291717
 Rigidbody2D:
   serializedVersion: 4
@@ -3695,6 +3739,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
   - name: "\uCD1D"
     clip: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
+  - name: EnemyDie
+    clip: {fileID: 8300000, guid: 8401456349c492a489ed90469e317e43, type: 3}
   audioObjectPrefab: {fileID: 708117791136189665, guid: eb582d0a749293846a2eafe0550b3aeb, type: 3}
   volumeSlider: {fileID: 0}
 --- !u!4 &1058898049
@@ -4132,7 +4178,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.21052602
+        value: 0.30262807
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -4371,6 +4417,7 @@ MonoBehaviour:
   attackRange: 8
   moveSpeed: 3
   attackCoolTime: 2
+  Bullet: {fileID: 0}
 --- !u!1 &1376753533
 GameObject:
   m_ObjectHideFlags: 0
