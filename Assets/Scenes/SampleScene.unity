@@ -8130,6 +8130,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b1226f1a0a272524fbd95e5e11e818a8, type: 3}
   - name: Sword
     clip: {fileID: 8300000, guid: 8c9dce991b9d29d45b84e45c2dc5d423, type: 3}
+  - name: Change
+    clip: {fileID: 8300000, guid: 2c9ade1089f73524f82cfc2554b97ecb, type: 3}
   audioObjectPrefab: {fileID: 708117791136189665, guid: eb582d0a749293846a2eafe0550b3aeb, type: 3}
   volumeSlider: {fileID: 0}
 --- !u!4 &1058898049

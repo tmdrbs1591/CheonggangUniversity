@@ -242,6 +242,7 @@ public class PlayerBase : MonoBehaviour
     private void ChangeWeapon()
     {
         GameManager.instance.Flash();
+        AudioManager.instance?.PlaySound(transform.position, "Change", Random.Range(1.4f, 1.4f), 1f);
 
         if (currentAttackType == AttackType.Gun)
         {
