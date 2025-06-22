@@ -80,6 +80,7 @@ public class DroneEnemy : EnemyBase
         if (isDying) return;
 
         hp -= amount;
+        AudioManager.instance?.PlaySound(transform.position, "Hit", Random.Range(1f, 1.1f), 1f);
 
         Vector2 knockbackDir = (transform.position - GameManager.instance.playerCont.transform.position).normalized;
         rb.AddForce(knockbackDir * 0.2f, ForceMode2D.Impulse);
@@ -122,7 +123,8 @@ public class DroneEnemy : EnemyBase
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
         rb.gravityScale = 2f;
-        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1f, 1.2f), 1f);
+        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
+        AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
 
         yield return new WaitForSeconds(2f);
 

@@ -34,6 +34,31 @@ public class RobotEnemy : EnemyBase
 
         isAttacking = false;
     }
+    public override void TakeDamage(float amount)
+    {
+        if (isDying) return;
+
+        hp -= amount;
+        AudioManager.instance?.PlaySound(transform.position, "RobotHit", Random.Range(1f, 1.1f), 1f);
+
+        if (playerTransform != null)
+        {
+            Vector2 knockbackDir = (transform.position - playerTransform.position).normalized;
+            rb.AddForce(knockbackDir * 1f, ForceMode2D.Impulse);
+        }
+
+        if (hitCoroutine != null)
+            StopCoroutine(hitCoroutine);
+        hitCoroutine = StartCoroutine(Cor_HitMaterialChange());
+
+        Debug.Log($"Enemy damaged! HP: {hp}");
+        CameraShake.instance.ShakeCamera(5f, 0.15f);
+
+        hpSlider.value = hp / maxHp;
+
+        if (hp <= 0)
+            StartCoroutine(Cor_Die());
+    }
 
     private void Damage()
     {

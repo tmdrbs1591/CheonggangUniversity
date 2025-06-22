@@ -81,27 +81,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(float amount)
     {
-        if (isDying) return;
-
-        hp -= amount;
-
-        if (playerTransform != null)
-        {
-            Vector2 knockbackDir = (transform.position - playerTransform.position).normalized;
-            rb.AddForce(knockbackDir * 1f, ForceMode2D.Impulse);
-        }
-
-        if (hitCoroutine != null)
-            StopCoroutine(hitCoroutine);
-        hitCoroutine = StartCoroutine(Cor_HitMaterialChange());
-
-        Debug.Log($"Enemy damaged! HP: {hp}");
-        CameraShake.instance.ShakeCamera(5f, 0.15f);
-
-        hpSlider.value = hp / maxHp;
-
-        if (hp <= 0)
-            StartCoroutine(Cor_Die());
+    
     }
 
     protected virtual IEnumerator Cor_Die()
@@ -130,7 +110,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
         EXPSpawn();
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
-        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1f, 1.2f), 1f);
+        AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
+        AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
 
         yield return new WaitForSeconds(2f);
 

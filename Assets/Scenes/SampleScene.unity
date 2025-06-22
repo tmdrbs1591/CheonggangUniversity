@@ -3740,7 +3740,13 @@ MonoBehaviour:
   - name: "\uCD1D"
     clip: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
   - name: EnemyDie
-    clip: {fileID: 8300000, guid: 8401456349c492a489ed90469e317e43, type: 3}
+    clip: {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
+  - name: Hit
+    clip: {fileID: 8300000, guid: 88d74cb347aa0f340bcff14df553ca6b, type: 3}
+  - name: Boom
+    clip: {fileID: 8300000, guid: 993f70006d284c14f84157200d24fe88, type: 3}
+  - name: RobotHit
+    clip: {fileID: 8300000, guid: 7688807d6ba949844a3a099d32183fb4, type: 3}
   audioObjectPrefab: {fileID: 708117791136189665, guid: eb582d0a749293846a2eafe0550b3aeb, type: 3}
   volumeSlider: {fileID: 0}
 --- !u!4 &1058898049
