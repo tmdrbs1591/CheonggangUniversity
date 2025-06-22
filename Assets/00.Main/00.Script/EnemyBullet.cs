@@ -18,7 +18,7 @@ public class EnemyBullet : MonoBehaviour
             {
                 ObjectPool.SpawnFromPool("DroneBulletEffect", transform.position);
                 ObjectPool.ReturnToPool(name, gameObject);
-                collision.GetComponent<PlayerBase>().TakeDamage(1);
+                collision.GetComponent<PlayerBase>().TakeDamage(10);
             }
         }
     }

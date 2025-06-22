@@ -70,7 +70,7 @@ public class RobotEnemy : EnemyBase
             {
                 if (collider.gameObject.CompareTag("Player"))
                 {
-                    collider.GetComponent<PlayerBase>().TakeDamage(1);
+                    collider.GetComponent<PlayerBase>().TakeDamage(10);
 
                 }
 

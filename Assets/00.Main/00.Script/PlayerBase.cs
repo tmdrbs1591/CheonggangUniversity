@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -35,6 +37,9 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("UI")]
+    [SerializeField] private Slider hpSlider;
+    [SerializeField] private TMP_Text hpText;
 
     private Coroutine ghostCoroutine;
     public bool IsGrounded
@@ -59,6 +64,9 @@ public class PlayerBase : MonoBehaviour
         currentJumpCount = maxJumpCount;
 
         currentHp = maxHp;
+
+        hpSlider.value = currentHp / maxHp;
+        hpText.text = $"{currentHp}/{maxHp}";
     }
 
 
@@ -183,7 +191,8 @@ public class PlayerBase : MonoBehaviour
     {
         currentHp -= damage;
         CameraShake.instance.ShakeCamera(5f, 0.15f);
-
+        hpSlider.value = currentHp/maxHp;
+        hpText.text = $"{currentHp}/{maxHp}";
     }
 
 }
