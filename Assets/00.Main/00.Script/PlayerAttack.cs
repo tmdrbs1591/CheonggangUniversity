@@ -38,15 +38,24 @@ public class PlayerAttack : MonoBehaviour
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 
         Vector2 direction = (mouseWorldPos - firePoint.position).normalized;
-
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // 회전 적용 (음수든 양수든 상관없이 유지)
         laserRotation.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        Vector3 scale = laserRotation.transform.localScale;
+        float sign = playerbase.transform.localScale.x < 0 ? -1f : 1f;
+        scale.x = Mathf.Abs(scale.x) * sign;
+        laserRotation.transform.localScale = scale;
+
+        // 기존 처리
         if (playerbase.currentAttackType == AttackType.Gun)
             UpdateLaserTrail(direction);
-        else if (playerbase.currentAttackType == AttackType.Sword)
+        else
             DisableLaserTrail();
     }
+
+
 
     private void UpdateLaserTrail(Vector2 direction)
     {
