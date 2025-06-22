@@ -83,7 +83,9 @@ public class PlayerAttack : MonoBehaviour
 
             // IDamageable을 가진 오브젝트 처리
             IDamageable damageable = hit.collider.GetComponent<IDamageable>();
-            if (damageable != null)
+            EnemyBase enemyBase = hit.collider.GetComponent<EnemyBase>();
+
+            if (damageable != null && (enemyBase == null || (enemyBase != null && !enemyBase.isDying)))
             {
                 closestDistance = dist;
                 endPoint = hit.point;

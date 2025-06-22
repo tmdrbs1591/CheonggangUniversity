@@ -106,7 +106,6 @@ public class PlayerBase : MonoBehaviour
 
 
 
-
     private IEnumerator Dash(float direction)
     {
         isDashing = true;
