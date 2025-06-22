@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public PlayerBase playerbase;
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject laserPrefab;
     [SerializeField] GameObject skillLaserPrefab;
@@ -11,10 +12,20 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject laserRotation;
     [SerializeField] GameObject laserRotationTrail;
 
-    [SerializeField] Slider bigLaserValueSlider;
+    [SerializeField] public Slider bigLaserValueSlider;
     [SerializeField] private float maxBigLaserValue;
     [SerializeField] private float currentBigLaserValue;
 
+    [Header("AttackArea Settings")]
+    [SerializeField] public Transform windAttackPos;
+    [SerializeField] public Vector2 windAttackBoxSize;
+    [SerializeField] public Transform attackPos;
+    [SerializeField] public Vector2 attackBoxSize;
+
+
+    [SerializeField] GameObject attackSlash1;
+    [SerializeField] GameObject attackSlash2;
+    private bool useFirstSlash = true;
     private void Start()
     {
         currentBigLaserValue = maxBigLaserValue;
@@ -31,7 +42,10 @@ public class PlayerAttack : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         laserRotation.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        UpdateLaserTrail(direction);
+        if (playerbase.currentAttackType == AttackType.Gun)
+            UpdateLaserTrail(direction);
+        else if (playerbase.currentAttackType == AttackType.Sword)
+            DisableLaserTrail();
     }
 
     private void UpdateLaserTrail(Vector2 direction)
@@ -62,7 +76,13 @@ public class PlayerAttack : MonoBehaviour
         lr.SetPosition(0, startPoint);
         lr.SetPosition(1, endPoint);
     }
-
+    private void DisableLaserTrail()
+    {
+        Vector3 startPoint = firePoint.position;
+        LineRenderer lr = laserRotationTrail.GetComponent<LineRenderer>();
+        lr.SetPosition(0, startPoint);
+        lr.SetPosition(1, startPoint); // 길이 0
+    }
     public void Fire(Vector2 direction)
     {
         CameraShake.instance.ShakeCamera(2f, 0.2f);
@@ -154,5 +174,66 @@ public class PlayerAttack : MonoBehaviour
             currentBigLaserValue = 0;
             bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
         }
+    }
+
+    public void SwordSlashToggle()
+    {
+        if (useFirstSlash)
+        {
+            attackSlash1.SetActive(true);
+            attackSlash2.SetActive(false);
+        }
+        else
+        {
+            attackSlash1.SetActive(false);
+            attackSlash2.SetActive(true);
+        }
+
+        useFirstSlash = !useFirstSlash;
+    }
+    public IEnumerator SwordSkill()
+    {
+        if (currentBigLaserValue >= maxBigLaserValue)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
+                Damage(windAttackPos, windAttackBoxSize);
+                yield return new WaitForSeconds(0.08f);
+
+                SwordSlashToggle();
+            }
+            currentBigLaserValue = 0;
+            bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
+        }
+    }
+    public void Damage(Transform t, Vector2 v)
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(t.position, v, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            Debug.Log("공격!");
+            if (collider != null)
+            {
+                IDamageable damageable = collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    currentBigLaserValue++;
+                    damageable.TakeDamage(Random.Range(4, 8));
+                    bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
+
+                }
+
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(windAttackPos.position, windAttackBoxSize);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(attackPos.position, attackBoxSize);
     }
 }

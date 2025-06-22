@@ -3,18 +3,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum AttackType
+{
+    Gun,
+    Sword
+}
 public class PlayerBase : MonoBehaviour
 {
+    public AttackType currentAttackType;
     [Header("Stat Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float maxHp;
     [SerializeField] private float currentHp;
-    [SerializeField] protected Transform windAttackPos;
-    [SerializeField] protected Vector2 windAttackBoxSize;
     public float jumpForce = 10f;
     public int maxJumpCount = 2;
     public int currentJumpCount;
     public GameObject whirlwind;
+
 
     [Header("Dash Settings")]
     public float dashForce = 20f;       // 대시 힘
@@ -29,9 +34,6 @@ public class PlayerBase : MonoBehaviour
     public GameObject laserPrefab;
     public PlayerAttack playerAttack;
 
-    // ==========================
-    // 🔹 Components
-    // ==========================
     private IPlayerState currentState;
     private SpriteRenderer spriteRenderer;
     private Animator anim;
@@ -44,6 +46,8 @@ public class PlayerBase : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider hpSlider;
     [SerializeField] private TMP_Text hpText;
+    [SerializeField] private Color gunColor = Color.white;
+    [SerializeField] private Color swordColor = Color.blue;
 
     private Coroutine ghostCoroutine;
     public bool IsGrounded
@@ -88,20 +92,35 @@ public class PlayerBase : MonoBehaviour
         {
             StartCoroutine(Cor_DashJumpWind());
         }
-        else if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
-        {
-            playerAttack.Fire(dir);
-            anim.SetTrigger("Shot");
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            playerAttack.Fire(dir);
-        }
 
-        if (Input.GetMouseButtonDown(1))
+        if(currentAttackType == AttackType.Gun)
         {
-            playerAttack.SkillLaserFire();
+            if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
+            {
+                playerAttack.Fire(dir);
+                anim.SetTrigger("Shot");
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                playerAttack.Fire(dir);
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                playerAttack.SkillLaserFire();
+            }
         }
+        else if(currentAttackType == AttackType.Sword)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                SwordAttack();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                StartCoroutine(playerAttack.SwordSkill());
+            }
+        }
+        
         if (IsGrounded && currentJumpCount != maxJumpCount)
         {
             currentJumpCount = maxJumpCount;
@@ -113,6 +132,10 @@ public class PlayerBase : MonoBehaviour
             ChangeState(new PlayerJumpState());
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ChangeWeapon();
+        }
         // 방향 입력
         float inputX = Input.GetAxisRaw("Horizontal");
 
@@ -128,6 +151,14 @@ public class PlayerBase : MonoBehaviour
     }
 
 
+    void SwordAttack()
+    {
+        playerAttack.Damage(playerAttack.attackPos, playerAttack.attackBoxSize);
+        PushForward(2f);
+        AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
+
+        playerAttack.SwordSlashToggle();
+    }
 
     private IEnumerator Dash(float direction)
     {
@@ -172,7 +203,9 @@ public class PlayerBase : MonoBehaviour
 
     private void Flip(float dir)
     {
-        spriteRenderer.flipX = dir < 0;
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (dir < 0 ? -1 : 1);
+        transform.localScale = scale;
     }
 
 
@@ -206,6 +239,32 @@ public class PlayerBase : MonoBehaviour
         hpSlider.value = currentHp/maxHp;
         hpText.text = $"{currentHp}/{maxHp}";
     }
+    private void ChangeWeapon()
+    {
+        GameManager.instance.Flash();
+
+        if (currentAttackType == AttackType.Gun)
+        {
+            currentAttackType = AttackType.Sword;
+            spriteRenderer.color = swordColor;
+            SetBigLaserSliderColor(swordColor);
+        }
+        else
+        {
+            currentAttackType = AttackType.Gun;
+            spriteRenderer.color = gunColor;
+            SetBigLaserSliderColor(gunColor);
+        }
+    }
+
+    private void SetBigLaserSliderColor(Color color)
+    {
+        Image fillImage = playerAttack.bigLaserValueSlider.fillRect.GetComponent<Image>();
+        if (fillImage != null)
+        {
+            fillImage.color = color;
+        }
+    }
 
     IEnumerator Cor_DashJumpWind()
     {
@@ -214,32 +273,19 @@ public class PlayerBase : MonoBehaviour
         whirlwind.SetActive(true);
         for (int i = 0; i < 5; i++)
         {
-            Damage();
+            playerAttack.Damage(playerAttack.windAttackPos, playerAttack.windAttackBoxSize);
             yield return new WaitForSeconds(0.05f);
         }
         isWind = false;
         whirlwind.SetActive(false);
     }
-    private void Damage()
-    {
-        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(windAttackPos.position, windAttackBoxSize, 0);
-        foreach (Collider2D collider in collider2Ds)
-        {
-            Debug.Log("공격!");
-            if (collider != null)
-            {
-                IDamageable damageable = collider.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    damageable.TakeDamage(Random.Range(4, 8));
-                }
 
-            }
-        }
-    }
-    private void OnDrawGizmos()
+    public void PushForward(float force = 3f)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(windAttackPos.position, windAttackBoxSize);
+        Vector2 dir = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        rb.AddForce(dir * force, ForceMode2D.Impulse);
     }
+
+   
+
 }
