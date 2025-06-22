@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -10,6 +11,15 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject laserRotation;
     [SerializeField] GameObject laserRotationTrail;
 
+    [SerializeField] Slider bigLaserValueSlider;
+    [SerializeField] private float maxBigLaserValue;
+    [SerializeField] private float currentBigLaserValue;
+
+    private void Start()
+    {
+        currentBigLaserValue = maxBigLaserValue;
+        bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
+    }
     void Update()
     {
         Vector3 mouseScreenPos = Input.mousePosition;
@@ -94,6 +104,9 @@ public class PlayerAttack : MonoBehaviour
                 ObjectPool.SpawnFromPool("BulletEffect", hit.point);
                 ObjectPool.SpawnFromPool("HitEffect", hit.point);
                 damageable.TakeDamage(Random.Range(10,20));
+                currentBigLaserValue++; // 빅 레이저 벨류 증가
+                bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
+
             }
         }
 
@@ -131,7 +144,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void SkillLaserFire()
     {
-        skillLaserPrefab.SetActive(false);
-        skillLaserPrefab.SetActive(true);
+        if(currentBigLaserValue >= maxBigLaserValue)
+        {
+            AudioManager.instance?.PlaySound(transform.position, "서브레이저", Random.Range(1f, 1.1f), 1f);
+            AudioManager.instance?.PlaySound(transform.position, "서브레이저2", Random.Range(1f, 1.1f), 1f);
+            CameraShake.instance.ShakeCamera(8f, 0.3f);
+            skillLaserPrefab.SetActive(false);
+            skillLaserPrefab.SetActive(true);
+            currentBigLaserValue = 0;
+            bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
+        }
     }
 }

@@ -83,7 +83,6 @@ public class PlayerBase : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && isDashing && !IsGrounded)
         {
             Debug.Log("스킬!");
-            playerAttack.SkillLaserFire();
         }
         else if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
         {
@@ -95,6 +94,10 @@ public class PlayerBase : MonoBehaviour
             playerAttack.Fire(dir);
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerAttack.SkillLaserFire();
+        }
         if (IsGrounded && currentJumpCount != maxJumpCount)
         {
             currentJumpCount = maxJumpCount;

@@ -6,7 +6,6 @@ public class Ghost : MonoBehaviour
 {
     public float ghostDelay;
     private float ghostDelaySeconds;
-    public GameObject ghost;
     public bool makeGhost = false;
     // Start is called before the first frame update
 
@@ -28,13 +27,13 @@ public class Ghost : MonoBehaviour
             }
             else
             {
+                
                 //고스트 만들기
-                GameObject currentGhost = Instantiate(ghost, transform.position, transform.rotation);
+                GameObject currentGhost = ObjectPool.SpawnFromPool("Ghost", transform.position);
                 Sprite currentSprite = GetComponent<SpriteRenderer>().sprite;
                 currentGhost.transform.localScale = this.transform.localScale;  
                 currentGhost.GetComponent<SpriteRenderer>().sprite = currentSprite;
                 ghostDelaySeconds = ghostDelay;
-                Destroy(currentGhost, 1f);
             }
         }
     }
