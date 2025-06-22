@@ -125,6 +125,7 @@ public class DroneEnemy : EnemyBase
         CameraShake.instance.ShakeCamera(7f, 0.2f);
         ObjectPool.SpawnFromPool("DieEffect", transform.position);
         EXPSpawn();
+        StartCoroutine(Cor_TimdSlow());
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
         rb.gravityScale = 2f;

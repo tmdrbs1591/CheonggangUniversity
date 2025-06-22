@@ -108,6 +108,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         CameraShake.instance.ShakeCamera(7f, 0.2f);
         ObjectPool.SpawnFromPool("DieEffect", transform.position);
+        StartCoroutine(Cor_TimdSlow());
         EXPSpawn();
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
@@ -119,6 +120,13 @@ public class EnemyBase : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
+    protected IEnumerator Cor_TimdSlow()
+    {
+        Time.timeScale = 0.1f;
+        yield return new WaitForSecondsRealtime(0.3f);
+        Time.timeScale = 1f;
+
+    }
     protected IEnumerator Cor_HitMaterialChange()
     {
         spriteren.material = hitMaterial;
