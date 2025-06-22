@@ -82,6 +82,11 @@ public class DroneEnemy : EnemyBase
         hp -= amount;
         AudioManager.instance?.PlaySound(transform.position, "Hit", Random.Range(1f, 1.1f), 1f);
 
+        var randomOffset = (Vector2)Random.insideUnitCircle * 1.5f;
+
+        var damageText = ObjectPool.SpawnFromPool("DamageText", transform.position + (Vector3)randomOffset);
+        damageText.GetComponent<TMPro.TMP_Text>().text = amount.ToString();
+
         Vector2 knockbackDir = (transform.position - GameManager.instance.playerCont.transform.position).normalized;
         rb.AddForce(knockbackDir * 0.2f, ForceMode2D.Impulse);
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RobotEnemy : EnemyBase
@@ -40,6 +41,13 @@ public class RobotEnemy : EnemyBase
 
         hp -= amount;
         AudioManager.instance?.PlaySound(transform.position, "RobotHit", Random.Range(1f, 1.1f), 1f);
+
+
+        var randomOffset = (Vector2)Random.insideUnitCircle * 1f;
+
+        var damageText = ObjectPool.SpawnFromPool("DamageText", transform.position + (Vector3)randomOffset);
+        damageText.GetComponent<TMPro.TMP_Text>().text = amount.ToString();
+
 
         if (playerTransform != null)
         {
