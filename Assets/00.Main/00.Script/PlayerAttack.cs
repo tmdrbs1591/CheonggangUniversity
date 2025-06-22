@@ -5,6 +5,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject laserPrefab;
+    [SerializeField] GameObject skillLaserPrefab;
 
     [SerializeField] GameObject laserRotation;
     [SerializeField] GameObject laserRotationTrail;
@@ -92,7 +93,7 @@ public class PlayerAttack : MonoBehaviour
 
                 ObjectPool.SpawnFromPool("BulletEffect", hit.point);
                 ObjectPool.SpawnFromPool("HitEffect", hit.point);
-                damageable.TakeDamage(1);
+                damageable.TakeDamage(Random.Range(10,20));
             }
         }
 
@@ -126,5 +127,11 @@ public class PlayerAttack : MonoBehaviour
         }
 
         ObjectPool.ReturnToPool("BulletLaser", lr.gameObject);
+    }
+
+    public void SkillLaserFire()
+    {
+        skillLaserPrefab.SetActive(false);
+        skillLaserPrefab.SetActive(true);
     }
 }

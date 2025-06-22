@@ -80,7 +80,12 @@ public class PlayerBase : MonoBehaviour
 
         Flip(dir.x);
 
-        if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
+        if (Input.GetMouseButtonDown(0) && isDashing && !IsGrounded)
+        {
+            Debug.Log("스킬!");
+            playerAttack.SkillLaserFire();
+        }
+        else if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
         {
             playerAttack.Fire(dir);
             anim.SetTrigger("Shot");
