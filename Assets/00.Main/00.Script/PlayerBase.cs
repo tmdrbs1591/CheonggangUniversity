@@ -9,9 +9,12 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float maxHp;
     [SerializeField] private float currentHp;
+    [SerializeField] protected Transform windAttackPos;
+    [SerializeField] protected Vector2 windAttackBoxSize;
     public float jumpForce = 10f;
     public int maxJumpCount = 2;
     public int currentJumpCount;
+    public GameObject whirlwind;
 
     [Header("Dash Settings")]
     public float dashForce = 20f;       // 대시 힘
@@ -19,6 +22,7 @@ public class PlayerBase : MonoBehaviour
     public float dashCooldown = 1f;     // 대시 쿨타임
     private bool isDashing = false;     // 현재 대시 중인지 여부
     private bool canDash = true;        // 대시 가능 여부
+    private bool isWind = false;
 
     [Header("Combat Settings")]
     public Transform firePoint;
@@ -80,9 +84,9 @@ public class PlayerBase : MonoBehaviour
 
         Flip(dir.x);
 
-        if (Input.GetMouseButtonDown(0) && isDashing && !IsGrounded)
+        if (isDashing && !IsGrounded && !isWind && currentJumpCount == 0)
         {
-            Debug.Log("스킬!");
+            StartCoroutine(Cor_DashJumpWind());
         }
         else if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
         {
@@ -203,4 +207,39 @@ public class PlayerBase : MonoBehaviour
         hpText.text = $"{currentHp}/{maxHp}";
     }
 
+    IEnumerator Cor_DashJumpWind()
+    {
+        AudioManager.instance?.PlaySound(transform.position, "휠윈드", Random.Range(1f, 1.2f), 1f);
+        isWind = true;
+        whirlwind.SetActive(true);
+        for (int i = 0; i < 5; i++)
+        {
+            Damage();
+            yield return new WaitForSeconds(0.05f);
+        }
+        isWind = false;
+        whirlwind.SetActive(false);
+    }
+    private void Damage()
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(windAttackPos.position, windAttackBoxSize, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            Debug.Log("공격!");
+            if (collider != null)
+            {
+                IDamageable damageable = collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(Random.Range(4, 8));
+                }
+
+            }
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(windAttackPos.position, windAttackBoxSize);
+    }
 }

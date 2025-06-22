@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(gameObject);
+            ObjectPool.ReturnToPool("AudioObject", gameObject);
             return;
         }
         instance = this;
@@ -65,11 +65,9 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        GameObject obj = Instantiate(audioObjectPrefab, new Vector3(position.x, position.y, -5f), Quaternion.identity);
+        GameObject obj = ObjectPool.SpawnFromPool("AudioObject", new Vector3(position.x, position.y, -5f));
         AudioObject audObj = obj.GetComponent<AudioObject>();
-        audObj.follow = follower;
-        audObj.clip = clip;
-        audObj.pitch = pitch;
-        audObj.volume = volume * masterVolume;  // AudioManager 볼륨 곱해서 전달
+        audObj.Init(clip, pitch, volume * masterVolume, follower);
     }
+
 }

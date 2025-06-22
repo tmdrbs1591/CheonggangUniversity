@@ -8,6 +8,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected float maxHp = 10;
     [SerializeField] protected float hp = 10;
 
+
     [Header("Component")]
     [SerializeField] protected Slider hpSlider;
     [SerializeField] protected LineRenderer dangerLineRenderer;

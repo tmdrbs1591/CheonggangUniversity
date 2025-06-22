@@ -1,4 +1,3 @@
-// AudioObject.cs
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -14,18 +13,27 @@ public class AudioObject : MonoBehaviour
     private bool isFollowing;
     private const float zOffset = -5f;
 
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.spatialBlend = 0f; // 2D 사운드
+    }
+
+    // 오브젝트 풀에서 꺼낼 때 초기화용 메서드
+    public void Init(AudioClip clip, float pitch, float volume, Transform follower)
+    {
+        this.clip = clip;
+        this.pitch = pitch;
+        this.volume = volume;
+        this.follow = follower;
 
         audioSource.clip = clip;
         audioSource.pitch = pitch;
-        audioSource.volume = volume; 
-        audioSource.loop = false;
-        audioSource.spatialBlend = 0f; 
+        audioSource.volume = volume;
         audioSource.Play();
 
-        isFollowing = follow != null;
+        isFollowing = follower != null;
     }
 
     void Update()
@@ -35,10 +43,11 @@ public class AudioObject : MonoBehaviour
             if (follow != null)
                 transform.position = new Vector3(follow.position.x, follow.position.y, zOffset);
             else
-                Destroy(gameObject);
+                ObjectPool.ReturnToPool("AudioObject", gameObject);
         }
 
+        // 재생이 끝나면 풀로 반환
         if (!audioSource.isPlaying)
-            Destroy(gameObject); // 재생 끝나면 삭제
+            ObjectPool.ReturnToPool("AudioObject", gameObject);
     }
 }
