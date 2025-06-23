@@ -52,6 +52,7 @@ public class EXP : MonoBehaviour
         if (distanceToPlayer < 0.3f || moveTime >= 1f)
         {
             ObjectPool.ReturnToPool("EXP", gameObject);
+            LevelManager.instance.AddExp(1);
         }
     }
 

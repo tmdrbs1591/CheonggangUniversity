@@ -24,19 +24,18 @@ public class PlayerItemContoller : MonoBehaviour
     public void ItemPickUp()
     {
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(boxPos.position, BoxSize, 0);
+
         foreach (Collider2D collider in collider2Ds)
         {
-            Debug.Log("공격!");
-            if (collider != null)
+            if (collider != null && collider.CompareTag("Item"))
             {
-                if (collider.gameObject.CompareTag("Item"))
-                {
-                    collider.GetComponent<ItemPickup>().Pickup();
-                }
-
+                Debug.Log("아이템 주움: " + collider.name);
+                collider.GetComponent<ItemPickup>().Pickup();
+                break; // 한 개만 줍고 끝!
             }
         }
     }
+
     public void ItemInfo()
     {
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(boxPos.position, BoxSize, 0);
