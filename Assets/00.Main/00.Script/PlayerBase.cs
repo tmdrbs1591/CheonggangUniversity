@@ -42,8 +42,6 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     [Header("UI")]
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private TMP_Text hpText;
     [SerializeField] private Color gunColor = Color.white;
     [SerializeField] private Color swordColor = Color.blue;
 
@@ -71,8 +69,7 @@ public class PlayerBase : MonoBehaviour
 
         playerStat.currentHp = playerStat.maxHp;
 
-        hpSlider.value = playerStat.currentHp / playerStat.maxHp;
-        hpText.text = $"{playerStat.currentHp}/{playerStat.maxHp}";
+        playerStat.UpdateUI();
     }
 
 
@@ -234,8 +231,7 @@ public class PlayerBase : MonoBehaviour
     {
         playerStat.currentHp -= damage;
         CameraShake.instance.ShakeCamera(5f, 0.15f);
-        hpSlider.value = playerStat.currentHp / playerStat.maxHp;
-        hpText.text = $"{playerStat.currentHp}/{playerStat.maxHp}";
+        playerStat.UpdateUI();
     }
     private void ChangeWeapon()
     {
