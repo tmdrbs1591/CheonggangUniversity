@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerItemContoller : MonoBehaviour
 {
     [SerializeField] public Transform boxPos;
     [SerializeField] public Vector2 BoxSize;
+    [SerializeField] private GameObject itemInfoUI;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text itemInfoText;
 
     private void Update()
     {
@@ -13,6 +19,7 @@ public class PlayerItemContoller : MonoBehaviour
         {
             ItemPickUp();
         }
+        ItemInfo();
     }
     public void ItemPickUp()
     {
@@ -29,6 +36,37 @@ public class PlayerItemContoller : MonoBehaviour
 
             }
         }
+    }
+    public void ItemInfo()
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(boxPos.position, BoxSize, 0);
+        bool foundItem = false;
+
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider != null && collider.CompareTag("Item"))
+            {
+                foundItem = true;
+
+                Debug.Log("공격!");
+
+                itemInfoUI.SetActive(true);  // 다시 켜기
+
+                var itemSc = collider.GetComponent<ItemPickup>();
+                itemInfoUI.transform.position = collider.transform.position + new Vector3(0, 2, 0);
+                itemImage.sprite = itemSc.item.icon;
+                itemNameText.text = itemSc.item.itemName;
+                itemInfoText.text = itemSc.item.itemInfo;
+
+                break; // 하나만 처리하고 끝낼 경우
+            }
+        }
+
+        if (!foundItem)
+        {
+            itemInfoUI.SetActive(false);
+        }
+
     }
     private void OnDrawGizmos()
     {

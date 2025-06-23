@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   itemName: "\uB9C8\uB098\uBB3C\uC57D"
+  itemInfo: "\uC0AC\uC6A9\uC2DC \uB9C8\uB098\uB97C 10 \uD68C\uBCF5\uD55C\uB2E4."
   value: 5
   icon: {fileID: -1462694522, guid: 05cd1cd58f070574ca4cbb11021ce8a4, type: 3}
   itemType: 1
