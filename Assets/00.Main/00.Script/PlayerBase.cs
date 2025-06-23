@@ -10,11 +10,9 @@ public enum AttackType
 }
 public class PlayerBase : MonoBehaviour
 {
+    public PlayerStat playerStat;
     public AttackType currentAttackType;
-    [Header("Stat Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float maxHp;
-    [SerializeField] private float currentHp;
+
     public float jumpForce = 10f;
     public int maxJumpCount = 2;
     public int currentJumpCount;
@@ -71,10 +69,10 @@ public class PlayerBase : MonoBehaviour
         ChangeState(new PlayerIdleState());
         currentJumpCount = maxJumpCount;
 
-        currentHp = maxHp;
+        playerStat.currentHp = playerStat.maxHp;
 
-        hpSlider.value = currentHp / maxHp;
-        hpText.text = $"{currentHp}/{maxHp}";
+        hpSlider.value = playerStat.currentHp / playerStat.maxHp;
+        hpText.text = $"{playerStat.currentHp}/{playerStat.maxHp}";
     }
 
 
@@ -198,7 +196,7 @@ public class PlayerBase : MonoBehaviour
 
     public void Move(float dir)
     {
-        transform.Translate(Vector3.right * dir * moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.right * dir * playerStat.moveSpeed * Time.deltaTime);
     }
 
     private void Flip(float dir)
@@ -234,13 +232,14 @@ public class PlayerBase : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHp -= damage;
+        playerStat.currentHp -= damage;
         CameraShake.instance.ShakeCamera(5f, 0.15f);
-        hpSlider.value = currentHp/maxHp;
-        hpText.text = $"{currentHp}/{maxHp}";
+        hpSlider.value = playerStat.currentHp / playerStat.maxHp;
+        hpText.text = $"{playerStat.currentHp}/{playerStat.maxHp}";
     }
     private void ChangeWeapon()
     {
+        StartCoroutine(Cor_TimdSlow());
         GameManager.instance.Flash();
         AudioManager.instance?.PlaySound(transform.position, "Change", Random.Range(1.4f, 1.4f), 1f);
 
@@ -257,7 +256,13 @@ public class PlayerBase : MonoBehaviour
             SetBigLaserSliderColor(gunColor);
         }
     }
+    protected IEnumerator Cor_TimdSlow()
+    {
+        Time.timeScale = 0.3f;
+        yield return new WaitForSecondsRealtime(0.1f);
+        Time.timeScale = 1f;
 
+    }
     private void SetBigLaserSliderColor(Color color)
     {
         Image fillImage = playerAttack.bigLaserValueSlider.fillRect.GetComponent<Image>();

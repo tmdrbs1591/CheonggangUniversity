@@ -14,7 +14,7 @@ public class BigLaser : MonoBehaviour
 
             if (damageable != null)
             {
-                damageable.TakeDamage(Random.Range(30, 50));
+                damageable.TakeDamage(Random.Range(GameManager.instance.playerCont.playerStat.attackPower + 20, GameManager.instance.playerCont.playerStat.attackPower + 50));
             }
         }
     }

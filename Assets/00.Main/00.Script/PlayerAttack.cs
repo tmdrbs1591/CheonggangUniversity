@@ -132,7 +132,7 @@ public class PlayerAttack : MonoBehaviour
 
                 ObjectPool.SpawnFromPool("BulletEffect", hit.point);
                 ObjectPool.SpawnFromPool("HitEffect", hit.point);
-                damageable.TakeDamage(Random.Range(10,20));
+                damageable.TakeDamage(Random.Range(playerbase.playerStat.attackPower, playerbase.playerStat.attackPower + 10));
                 currentBigLaserValue++; // 빅 레이저 벨류 증가
                 bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
 
@@ -228,7 +228,7 @@ public class PlayerAttack : MonoBehaviour
                 if (damageable != null)
                 {
                     currentBigLaserValue++;
-                    damageable.TakeDamage(Random.Range(4, 8));
+                    damageable.TakeDamage(Random.Range(playerbase.playerStat.attackPower, playerbase.playerStat.attackPower + 5));
                     bigLaserValueSlider.value = currentBigLaserValue / maxBigLaserValue;
 
                 }
