@@ -122,6 +122,7 @@ public class DroneEnemy : EnemyBase
 
         yield return new WaitForSeconds(0.6f);
 
+        SpawnRandomItem(transform.position);
         CameraShake.instance.ShakeCamera(7f, 0.2f);
         ObjectPool.SpawnFromPool("DieEffect", transform.position);
         EXPSpawn();

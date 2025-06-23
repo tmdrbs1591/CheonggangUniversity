@@ -106,6 +106,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         yield return new WaitForSeconds(0.6f);
 
+        SpawnRandomItem(transform.position);
         CameraShake.instance.ShakeCamera(7f, 0.2f);
         ObjectPool.SpawnFromPool("DieEffect", transform.position);
         StartCoroutine(Cor_TimdSlow());
@@ -145,5 +146,17 @@ public class EnemyBase : MonoBehaviour, IDamageable
         {
             ObjectPool.SpawnFromPool("EXP", transform.position);
         }
+    }
+    protected void SpawnRandomItem(Vector2 spawnPos)
+    {
+        if (InventoryManager.instance.itemPrefabs == null || InventoryManager.instance.itemPrefabs.Length == 0)
+        {
+            Debug.LogWarning("아이템 프리팹이 없습니다.");
+            return;
+        }
+
+        int randIndex = Random.Range(0, InventoryManager.instance.itemPrefabs.Length);
+        GameObject prefab = InventoryManager.instance.itemPrefabs[randIndex];
+        Instantiate(prefab, spawnPos, Quaternion.identity);
     }
 }
