@@ -23,14 +23,21 @@ public class InventoryItemContoller : MonoBehaviour
         switch(item.itemType)
         {
             case Item.ItemType.HealthPotion:
-                GameManager.instance.playerCont.playerStat.IncreaseHealth(10);
-                GameManager.instance.playerCont.playerStat.UpdateUI();
-                Debug.Log("체력먹방");
-                break;
+                if (GameManager.instance.playerCont.playerStat.currentHp + item.value <= GameManager.instance.playerCont.playerStat.maxHp)
+                {
+                    GameManager.instance.playerCont.playerStat.IncreaseHealth(item.value);
+                    GameManager.instance.playerCont.playerStat.UpdateUI();
+                    RemoveItem();
+                }
+                else
+                {
+
+                }
+                    break;
             case Item.ItemType.ManaPotion:
                 Debug.Log("마나먹방");
+                RemoveItem();
                 break;
         }
-        RemoveItem();
     }
 }

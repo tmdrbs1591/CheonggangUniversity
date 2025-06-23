@@ -16,3 +16,4 @@ MonoBehaviour:
   itemName: "\uCCB4\uB825\uBB3C\uC57D"
   value: 10
   icon: {fileID: -1131945998, guid: 6c8a7e6082d6a7943a7fbb485bd3efe9, type: 3}
+  itemType: 0
