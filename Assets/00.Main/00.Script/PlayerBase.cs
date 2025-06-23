@@ -239,7 +239,6 @@ public class PlayerBase : MonoBehaviour
     }
     private void ChangeWeapon()
     {
-        StartCoroutine(Cor_TimdSlow());
         GameManager.instance.Flash();
         AudioManager.instance?.PlaySound(transform.position, "Change", Random.Range(1.4f, 1.4f), 1f);
 
@@ -256,7 +255,7 @@ public class PlayerBase : MonoBehaviour
             SetBigLaserSliderColor(gunColor);
         }
     }
-    protected IEnumerator Cor_TimdSlow()
+    protected IEnumerator Cor_TimeSlow()
     {
         Time.timeScale = 0.3f;
         yield return new WaitForSecondsRealtime(0.1f);
