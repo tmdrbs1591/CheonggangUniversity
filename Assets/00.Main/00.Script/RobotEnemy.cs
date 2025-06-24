@@ -39,6 +39,7 @@ public class RobotEnemy : EnemyBase
     {
         if (isDying) return;
 
+        hpSlider.gameObject.SetActive(true);
         hp -= amount;
         AudioManager.instance?.PlaySound(transform.position, "RobotHit", Random.Range(1f, 1.1f), 1f);
 

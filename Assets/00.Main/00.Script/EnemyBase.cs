@@ -41,6 +41,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     {
         hp = maxHp;
         playerTransform = GameManager.instance.playerCont.transform;
+        hpSlider.gameObject.SetActive(false);
     }
 
     public void Update()
@@ -82,7 +83,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(float amount)
     {
-    
     }
 
     protected virtual IEnumerator Cor_Die()

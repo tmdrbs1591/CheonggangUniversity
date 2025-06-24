@@ -75,6 +75,9 @@ public class PlayerBase : MonoBehaviour
 
     void Update()
     {
+        Dialog();
+        if (DialogManager.instance.isDialogActive)
+            return;
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Camera.main.transform.position.z * -1f;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
@@ -287,6 +290,31 @@ public class PlayerBase : MonoBehaviour
         rb.AddForce(dir * force, ForceMode2D.Impulse);
     }
 
-   
+
+    void Dialog()
+    {
+            if (Input.GetKeyDown(KeyCode.F))
+        {
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.attackPos.position, playerAttack.attackBoxSize, 0);
+
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider != null && collider.CompareTag("NPC"))
+                {
+                    Debug.Log("Ads");
+
+                    ChangeState(new PlayerIdleState());
+                    var npcScript = collider.GetComponent<NPC>();
+                    if (npcScript != null)
+                        DialogManager.instance.DialogStart(npcScript.NPCID, collider.transform.position);
+
+                 
+                    return;
+                }
+            }
+        }
+    }
+
+
 
 }

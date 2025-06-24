@@ -79,6 +79,7 @@ public class DroneEnemy : EnemyBase
     {
         if (isDying) return;
 
+        hpSlider.gameObject.SetActive(true);
         hp -= amount;
         AudioManager.instance?.PlaySound(transform.position, "Hit", Random.Range(1f, 1.1f), 1f);
 
