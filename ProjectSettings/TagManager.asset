@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Item
   - NPC
+  - CutScene
   layers:
   - Default
   - TransparentFX

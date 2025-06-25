@@ -76,7 +76,7 @@ public class PlayerBase : MonoBehaviour
     void Update()
     {
         Dialog();
-        if (DialogManager.instance.isDialogActive)
+        if (DialogManager.instance.isDialogActive || TimeLineManager.instance.isCutScene)
             return;
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Camera.main.transform.position.z * -1f;
@@ -293,6 +293,8 @@ public class PlayerBase : MonoBehaviour
 
     void Dialog()
     {
+        if (TimeLineManager.instance.isCutScene)
+            return;
             if (Input.GetKeyDown(KeyCode.F))
         {
             Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.attackPos.position, playerAttack.attackBoxSize, 0);

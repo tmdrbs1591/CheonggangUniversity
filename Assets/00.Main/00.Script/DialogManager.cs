@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class DialogManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class DialogManager : MonoBehaviour
 
     private bool canInteract = true;
     private bool canPress = true;
+
+    [SerializeField] private PlayableDirector playableDirector; // 타임라인을 제어할 PlayableDirector
 
     private void Awake()
     {
@@ -145,11 +148,14 @@ public class DialogManager : MonoBehaviour
 
     void EndDialog()
     {
+        if (TimeLineManager.instance.isCutScene)
+        {
+            ResumeTimeline();
+        }
         isDialogActive = false;
         speechBubble.SetActive(false);
         arrow.SetActive(false);
 
-        playerCameraPos.position += new Vector3(0, 1, -1);
 
         StartCoroutine(ResetInteractCooldown());
     }
@@ -192,7 +198,7 @@ public class DialogManager : MonoBehaviour
     public void CutSceneDialogStart(int id)
     {
         if (isDialogActive) return;
-
+        PauseTimeline();
         if (dialogDict.TryGetValue(id, out var dialog))
         {
             currentMessages = dialog.message;
@@ -209,6 +215,22 @@ public class DialogManager : MonoBehaviour
 
     public void CutSceneDialogStartPosition(Transform newPosition)
     {
-        speechBubble.transform.position = new Vector3(newPosition.position.x, newPosition.position.y, newPosition.position.z);
+        speechBubble.transform.position = new Vector3(newPosition.position.x, newPosition.position.y + 1, newPosition.position.z);
+    }
+
+    public void PauseTimeline()
+    {
+        if (playableDirector != null)
+        {
+            playableDirector.Pause(); // 타임라인 멈추기
+        }
+    }
+
+    public void ResumeTimeline()
+    {
+        if (playableDirector != null)
+        {
+            playableDirector.Play(); // 타임라인 재생
+        }
     }
 }

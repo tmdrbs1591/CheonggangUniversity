@@ -33,6 +33,8 @@ public class PlayerAttack : MonoBehaviour
     }
     void Update()
     {
+        if (DialogManager.instance.isDialogActive || TimeLineManager.instance.isCutScene)
+            return;
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Camera.main.transform.position.z * -1f;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
