@@ -3321,8 +3321,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281808695
-  m_fontColor: {r: 0.21568628, g: 0.21568628, b: 0.21568628, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9426,7 +9426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
+  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12259,6 +12259,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8c9dce991b9d29d45b84e45c2dc5d423, type: 3}
   - name: Change
     clip: {fileID: 8300000, guid: 92c0beeeefdc5e448951390c432f5944, type: 3}
+  - name: item
+    clip: {fileID: 8300000, guid: 83cbe041cb690ec468a0aded8ff922da, type: 3}
   audioObjectPrefab: {fileID: 708117791136189665, guid: eb582d0a749293846a2eafe0550b3aeb, type: 3}
   volumeSlider: {fileID: 0}
 --- !u!4 &1058898049
@@ -22408,7 +22410,6 @@ SceneRoots:
   - {fileID: 344559031}
   - {fileID: 1440440737}
   - {fileID: 886708673}
-  - {fileID: 1058898049}
   - {fileID: 293766124}
   - {fileID: 1919623194}
   - {fileID: 1604847337}
@@ -22424,3 +22425,4 @@ SceneRoots:
   - {fileID: 590882585}
   - {fileID: 340470124}
   - {fileID: 1130153693}
+  - {fileID: 1058898049}

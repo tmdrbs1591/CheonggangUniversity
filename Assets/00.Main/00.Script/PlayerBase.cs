@@ -152,7 +152,6 @@ public class PlayerBase : MonoBehaviour
     void SwordAttack()
     {
         playerAttack.Damage(playerAttack.attackPos, playerAttack.attackBoxSize);
-        PushForward(2f);
         AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
 
         playerAttack.SwordSlashToggle();

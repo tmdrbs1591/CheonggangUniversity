@@ -26,6 +26,7 @@ public class ItemPickup : MonoBehaviour
         itemUI.transform.SetParent(GameManager.instance.itemUIPos, false);
         var itemName = itemUI.transform.Find("ItemName").GetComponent<TMP_Text>();
         var itemIcon = itemUI.transform.Find("ItemIcon").GetComponent<Image>();
+        AudioManager.instance?.PlaySound(transform.position, "item", UnityEngine.Random.Range(1f, 1.2f), 1f);
 
         itemName.text = item.itemName + " X1";
         itemIcon.sprite = item.icon;
