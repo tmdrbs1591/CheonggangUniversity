@@ -4282,8 +4282,11 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - e2a46cbfe8f80f9448be1c954d74c47f: {fileID: 1010574132}
+    - 447e31069f9511643b10f5c9dd3363e7: {fileID: 1010574132}
     - 067139e2047b83149ba59ea113fdfc9b: {fileID: 1010574132}
     - 92bf36f7adf0fbb41a709b9271e875c8: {fileID: 590882584}
+    - cfc47394956b84b4eb75747241be6e0a: {fileID: 590882584}
+    - 7a7cab0e200924940ae2cfecb4a7f5ab: {fileID: 1010574132}
 --- !u!114 &340470126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6703,7 +6706,7 @@ Transform:
   m_GameObject: {fileID: 590882583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.4, y: -10.7, z: -10.384479}
+  m_LocalPosition: {x: 17.1, y: -0.6, z: -10.384479}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12854,6 +12857,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fee7826488cc7864883e4917250cb81a, type: 2}
     - {fileID: 11400000, guid: a98302e6a5496f3468ac26b727290341, type: 2}
     - {fileID: 11400000, guid: db140b3407879094ebd541a6af7375e7, type: 2}
+    - {fileID: 11400000, guid: f8f5b58164f06494f9ce4641dee88979, type: 2}
+    - {fileID: 11400000, guid: 46deb8d60edd6954eb2ba07378c3056b, type: 2}
+    - {fileID: 11400000, guid: cf5d2251b2859cc45906793c39017c5c, type: 2}
+    - {fileID: 11400000, guid: 8db56534d5ec39b45a4beeac52661d56, type: 2}
+    - {fileID: 11400000, guid: 9834431a20e2cb84e8ef453f8bb5c7e0, type: 2}
+    - {fileID: 11400000, guid: b57115d345b05f54290a45c8b4c0dcbb, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -12959,6 +12968,162 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 261989509}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 4
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 647164282}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 5
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 261989509}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 6
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 261989509}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 7
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 647164282}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 8
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStartPosition
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 261989509}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1130153692}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: CutSceneDialogStart
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 9
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
