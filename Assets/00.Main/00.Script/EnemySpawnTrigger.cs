@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class EnemySpawnTrigger : MonoBehaviour
     [SerializeField] private EnemyFactory factory;
     [SerializeField] private List<EnemySpawnData> spawnDataList;
 
+    [SerializeField] private float spawnDelay = 0.8f;       // 이펙트 후 딜레이
+
     private bool hasTriggered = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,11 +31,19 @@ public class EnemySpawnTrigger : MonoBehaviour
 
                 for (int i = 0; i < pointCount; i++)
                 {
-                    // spawnCount > spawnPoints.Length이면 다시 순환
                     Transform spawnPoint = data.spawnPoints[i % pointCount];
-                    factory.CreateEnemy(data.enemyType, spawnPoint.position);
+                    StartCoroutine(SpawnWithEffect(data.enemyType, spawnPoint));
                 }
             }
         }
     }
+
+    private IEnumerator SpawnWithEffect(EnemyType type, Transform spawnPoint)
+    {
+        GameObject effect = ObjectPool.SpawnFromPool("SpawnEffect", spawnPoint.position);
+        yield return new WaitForSeconds(spawnDelay);
+
+        factory.CreateEnemy(type, spawnPoint.position);
+    }
+
 }

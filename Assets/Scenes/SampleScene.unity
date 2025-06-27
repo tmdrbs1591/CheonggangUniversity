@@ -1720,6 +1720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   factory: {fileID: 291852954}
   spawnDataList: []
+  spawnDelay: 0.5
 --- !u!1 &220301579
 GameObject:
   m_ObjectHideFlags: 0
@@ -7123,6 +7124,7 @@ MonoBehaviour:
     spawnPoints:
     - {fileID: 1165679000}
     - {fileID: 327706311}
+  spawnDelay: 0.5
 --- !u!1 &807471856
 GameObject:
   m_ObjectHideFlags: 0
@@ -11687,7 +11689,7 @@ GameObject:
   - component: {fileID: 886708673}
   - component: {fileID: 886708672}
   m_Layer: 0
-  m_Name: ObjectPool
+  m_Name: ===ObjectPool===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11749,6 +11751,10 @@ MonoBehaviour:
   - poolCount: 0
     poolName: ItemUI
     poolObject: {fileID: 7928548075572927748, guid: dee221a25f7b05442b9a2a0ed178a28b, type: 3}
+    parentObject: {fileID: 0}
+  - poolCount: 5
+    poolName: SpawnEffect
+    poolObject: {fileID: 5234082617199649326, guid: ed2213ff55b0ebc47bbb0891cf3da408, type: 3}
     parentObject: {fileID: 0}
 --- !u!4 &886708673
 Transform:
@@ -14756,6 +14762,7 @@ MonoBehaviour:
     - {fileID: 258514437}
     - {fileID: 2055700982}
     - {fileID: 1670619800}
+  spawnDelay: 0.5
 --- !u!1 &1319761680
 GameObject:
   m_ObjectHideFlags: 0
@@ -25061,7 +25068,6 @@ SceneRoots:
   - {fileID: 140315837}
   - {fileID: 1010574133}
   - {fileID: 1440440737}
-  - {fileID: 886708673}
   - {fileID: 293766124}
   - {fileID: 1919623194}
   - {fileID: 1604847337}
@@ -25076,6 +25082,7 @@ SceneRoots:
   - {fileID: 1275904205}
   - {fileID: 590882585}
   - {fileID: 340470124}
+  - {fileID: 886708673}
   - {fileID: 1130153693}
   - {fileID: 1058898049}
   - {fileID: 1769282760}
