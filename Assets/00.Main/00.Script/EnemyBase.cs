@@ -23,7 +23,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected Collider2D collider;
 
     protected Coroutine hitCoroutine;
-
+    public System.Action<EnemyBase> OnDeath;
     public bool isDying { get; protected set; }
 
     [Header("AI")]
@@ -87,7 +87,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected virtual IEnumerator Cor_Die()
     {
         isDying = true;
-
         if (playerTransform != null)
         {
             Vector2 knockbackDir = (transform.position - playerTransform.position).normalized;
@@ -114,6 +113,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         collider.isTrigger = true;
         AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
         AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
+        OnDeath?.Invoke(this);
 
         yield return new WaitForSeconds(2f);
 

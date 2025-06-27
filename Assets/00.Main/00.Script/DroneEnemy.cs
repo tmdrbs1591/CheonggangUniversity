@@ -133,6 +133,7 @@ public class DroneEnemy : EnemyBase
         rb.gravityScale = 2f;
         AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
         AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
+        OnDeath?.Invoke(this);
 
         yield return new WaitForSeconds(2f);
 
