@@ -260,6 +260,7 @@ public class PlayerBase : MonoBehaviour
         Time.timeScale = 1f;
 
     }
+  
     private void SetBigLaserSliderColor(Color color)
     {
         Image fillImage = playerAttack.bigLaserValueSlider.fillRect.GetComponent<Image>();
