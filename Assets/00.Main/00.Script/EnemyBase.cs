@@ -43,7 +43,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         playerTransform = GameManager.instance.playerCont.transform;
         hpSlider.gameObject.SetActive(false);
     }
-
     public void Update()
     {
         if (isDying || playerTransform == null) return;
