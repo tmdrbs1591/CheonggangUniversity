@@ -8,13 +8,13 @@ public class CameraShake : MonoBehaviour
 
     public static CameraShake instance;
 
-    private CinemachineVirtualCamera cinemachineVirtualCamera;
+    public CinemachineVirtualCamera cinemachineVirtualCamera;
+    public CinemachineVirtualCamera cinemachineBreakVirtualCamera;
     private float shakeTimer;
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
-        cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
     public void ShakeCamera(float instensity, float time)
@@ -26,7 +26,15 @@ public class CameraShake : MonoBehaviour
         shakeTimer = time;
     }
 
- 
+    public void ShakeBreakCamera()
+    {
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
+            cinemachineBreakVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 10;
+        shakeTimer = 3;
+    }
+
     private void Update()
     {
         if (shakeTimer > 0)

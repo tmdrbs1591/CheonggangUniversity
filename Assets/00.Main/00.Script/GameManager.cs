@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public PlayerBase playerCont;
     public GameObject flash;
     public Transform itemUIPos;
+    public GameObject interactionUI;
 
     private void Awake()
     {

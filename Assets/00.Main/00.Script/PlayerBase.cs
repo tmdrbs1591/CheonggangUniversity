@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public enum AttackType
 {
@@ -91,7 +92,7 @@ public class PlayerBase : MonoBehaviour
             StartCoroutine(Cor_DashJumpWind());
         }
 
-        if(currentAttackType == AttackType.Gun)
+        if (currentAttackType == AttackType.Gun)
         {
             if (Input.GetMouseButtonDown(0) && currentState is PlayerIdleState)
             {
@@ -107,7 +108,7 @@ public class PlayerBase : MonoBehaviour
                 playerAttack.SkillLaserFire();
             }
         }
-        else if(currentAttackType == AttackType.Sword)
+        else if (currentAttackType == AttackType.Sword)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -118,7 +119,7 @@ public class PlayerBase : MonoBehaviour
                 StartCoroutine(playerAttack.SwordSkill());
             }
         }
-        
+
         if (IsGrounded && currentJumpCount != maxJumpCount)
         {
             currentJumpCount = maxJumpCount;
@@ -260,7 +261,7 @@ public class PlayerBase : MonoBehaviour
         Time.timeScale = 1f;
 
     }
-  
+
     private void SetBigLaserSliderColor(Color color)
     {
         Image fillImage = playerAttack.bigLaserValueSlider.fillRect.GetComponent<Image>();
@@ -290,33 +291,77 @@ public class PlayerBase : MonoBehaviour
         rb.AddForce(dir * force, ForceMode2D.Impulse);
     }
 
-
     void Dialog()
     {
         if (TimeLineManager.instance.isCutScene)
             return;
-            if (Input.GetKeyDown(KeyCode.F))
-        {
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.attackPos.position, playerAttack.attackBoxSize, 0);
 
-            foreach (Collider2D collider in colliders)
+        // 대화 중이면 interaction UI는 꺼져 있어야 함
+        if (DialogManager.instance.isDialogActive)
+        {
+            GameManager.instance.interactionUI.SetActive(false);
+            return;
+        }
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.attackPos.position, playerAttack.attackBoxSize, 0);
+
+        bool npcFound = false;
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider != null && collider.CompareTag("NPC"))
             {
-                if (collider != null && collider.CompareTag("NPC"))
+                npcFound = true;
+
+                GameManager.instance.interactionUI.SetActive(true);
+                GameManager.instance.interactionUI.transform.position = collider.transform.position + new Vector3(0, 1, 0);
+                GameManager.instance.interactionUI.transform.Find("Text").GetComponent<TMP_Text>().text = "대화";
+
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     Debug.Log("Ads");
+                    GameManager.instance.interactionUI.SetActive(false);
 
                     ChangeState(new PlayerIdleState());
+
                     var npcScript = collider.GetComponent<NPC>();
                     if (npcScript != null)
                         DialogManager.instance.DialogStart(npcScript.NPCID, collider.transform.position);
 
-                 
                     return;
                 }
+
+                break;
             }
+            else if (collider != null && collider.CompareTag("StoneButton"))
+            {
+
+                GameManager.instance.interactionUI.SetActive(true);
+                GameManager.instance.interactionUI.transform.position = collider.transform.position + new Vector3(0, 1, 0);
+                GameManager.instance.interactionUI.transform.Find("Text").GetComponent<TMP_Text>().text = "누르기";
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    collider.GetComponent<StoneButton>().EventStart();
+                    Debug.Log("Ads");
+                    GameManager.instance.interactionUI.SetActive(false);
+
+                    ChangeState(new PlayerIdleState());
+
+                    return;
+                }
+
+                break;
+            }
+        }
+
+        if (!npcFound)
+        {
+            GameManager.instance.interactionUI.SetActive(false);
         }
     }
 
-
-
 }
+
+
+
