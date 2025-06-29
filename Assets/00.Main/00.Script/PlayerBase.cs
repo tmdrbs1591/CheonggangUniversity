@@ -303,7 +303,7 @@ public class PlayerBase : MonoBehaviour
             return;
         }
 
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.attackPos.position, playerAttack.attackBoxSize, 0);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(playerAttack.windAttackPos.position, playerAttack.windAttackBoxSize, 0);
 
         bool npcFound = false;
 
