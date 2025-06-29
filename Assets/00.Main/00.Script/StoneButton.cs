@@ -7,15 +7,19 @@ public class StoneButton : MonoBehaviour, Interaction
     [SerializeField] Transform stoneMovePos;
     [SerializeField] float moveTime = 1.5f;
 
+    bool isOpen = false;
     public void EventStart()
     {
+        if (isOpen)
+            return;
         StartCoroutine(MoveStoneCoroutine());
         TimeLineManager.instance.StartCutScene(1);
+        isOpen = true;
     }
 
     private IEnumerator MoveStoneCoroutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         Vector3 startPos = stone.position;
         Vector3 endPos = stoneMovePos.position;
         float elapsed = 0f;

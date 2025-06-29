@@ -335,6 +335,7 @@ public class PlayerBase : MonoBehaviour
             }
             else if (collider != null && collider.CompareTag("StoneButton"))
             {
+                npcFound = true;
 
                 GameManager.instance.interactionUI.SetActive(true);
                 GameManager.instance.interactionUI.transform.position = collider.transform.position + new Vector3(0, 1, 0);
