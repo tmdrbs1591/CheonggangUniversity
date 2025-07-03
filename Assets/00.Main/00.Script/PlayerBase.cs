@@ -32,6 +32,7 @@ public class PlayerBase : MonoBehaviour
     public Transform firePoint;
     public GameObject laserPrefab;
     public PlayerAttack playerAttack;
+    public PlayerParrying playerParrying;
 
     private IPlayerState currentState;
     private SpriteRenderer spriteRenderer;
@@ -232,15 +233,22 @@ public class PlayerBase : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        playerStat.currentHp -= damage;
-        CameraShake.instance.ShakeCamera(5f, 0.15f);
-        playerStat.UpdateUI();
+        if (playerParrying.isParrying)
+        {
+            playerParrying.ParryingStart();
+        }
+        else
+        {
+            playerStat.currentHp -= damage;
+            CameraShake.instance.ShakeCamera(5f, 0.15f);
+            playerStat.UpdateUI();
+        }
     }
     private void ChangeWeapon()
     {
         GameManager.instance.Flash();
         AudioManager.instance?.PlaySound(transform.position, "Change", Random.Range(1.4f, 1.4f), 1f);
-
+        StartCoroutine(playerParrying.Cor_ParryingObject());
         if (currentAttackType == AttackType.Gun)
         {
             currentAttackType = AttackType.Sword;

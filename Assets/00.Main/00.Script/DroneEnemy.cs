@@ -5,6 +5,8 @@ using UnityEngine;
 public class DroneEnemy : EnemyBase
 {
     [SerializeField] private GameObject Bullet;
+    [SerializeField] private float bulletSpeed = 15f;  // 원하는 속도 조절
+
     private void Start()
     {
         base.Start();
@@ -66,7 +68,6 @@ public class DroneEnemy : EnemyBase
             Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
             if (bulletRb != null)
             {
-                float bulletSpeed = 15f;  // 원하는 속도 조절
                 bulletRb.velocity = shootDir * bulletSpeed;
             }
 
