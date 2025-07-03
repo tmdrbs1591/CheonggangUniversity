@@ -5,6 +5,7 @@ using UnityEngine;
 public class RiderBoss : EnemyBase
 {
     [SerializeField] private float bulletSpeed = 15f;  // 원하는 속도 조절
+    [SerializeField] private GameObject busterEffect;
     private void Start()
     {
  
@@ -115,9 +116,16 @@ public class RiderBoss : EnemyBase
 
         // Sprite Flip
         if (dir.x < 0)
+        {
+            busterEffect.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             spriteren.flipX = false;
+
+        }
         else
+        {
+            busterEffect.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             spriteren.flipX = true;
+        }
     }
     protected override IEnumerator Cor_Die()
     {

@@ -39,29 +39,35 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public void Start()
     {
-       
+
         hp = maxHp;
         playerTransform = GameManager.instance.playerCont.transform;
         hpSlider.gameObject.SetActive(false);
     }
     public void Update()
     {
-    
-        if (isDying || playerTransform == null || TimeLineManager.instance.isCutScene) return;
+        if (isDying || playerTransform == null) return;
 
-        // 쿨타임 진행
-        if (currentCoolTime > 0f)
-            currentCoolTime -= Time.deltaTime;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-
-        if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)   
+        if (TimeLineManager.instance.isCutScene)
         {
-            FollowPlayer();
+            rb.velocity = Vector3.zero;
         }
-        else if (distanceToPlayer <= attackRange && !isAttacking && currentCoolTime <= 0f)
+        else
         {
-            StartCoroutine(Cor_Attack());
+            // 쿨타임 진행
+            if (currentCoolTime > 0f)
+                currentCoolTime -= Time.deltaTime;
+
+            float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+
+            if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
+            {
+                FollowPlayer();
+            }
+            else if (distanceToPlayer <= attackRange && !isAttacking && currentCoolTime <= 0f)
+            {
+                StartCoroutine(Cor_Attack());
+            }
         }
     }
 
