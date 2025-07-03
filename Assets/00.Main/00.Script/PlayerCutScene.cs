@@ -12,7 +12,7 @@ public class PlayerCutScene : MonoBehaviour
             if (collision.gameObject.CompareTag("CutScene"))
             {
                 collision.gameObject.SetActive(false);
-                TimeLineManager.instance.StartCutScene(0);
+                TimeLineManager.instance.StartCutScene(collision.GetComponent<CutSceneBox>().index);
             }
         }
     }

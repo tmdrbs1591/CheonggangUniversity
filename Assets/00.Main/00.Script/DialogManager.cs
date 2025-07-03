@@ -91,7 +91,6 @@ public class DialogManager : MonoBehaviour
 
             speechBubble.transform.position = new Vector3(newPosition.x, newPosition.y + 1, newPosition.z);
 
-            playerCameraPos.position += new Vector3(0, -1, 1);
 
             ShowNextMessage();
 

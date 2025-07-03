@@ -39,13 +39,15 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public void Start()
     {
+       
         hp = maxHp;
         playerTransform = GameManager.instance.playerCont.transform;
         hpSlider.gameObject.SetActive(false);
     }
     public void Update()
     {
-        if (isDying || playerTransform == null) return;
+    
+        if (isDying || playerTransform == null || TimeLineManager.instance.isCutScene) return;
 
         // 쿨타임 진행
         if (currentCoolTime > 0f)
@@ -65,6 +67,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void FollowPlayer()
     {
+
         Vector2 dir = (playerTransform.position - transform.position).normalized;
         rb.velocity = new Vector2(dir.x * moveSpeed, rb.velocity.y);
 
