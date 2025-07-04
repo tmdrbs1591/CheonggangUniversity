@@ -1,20 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RiderBoss : EnemyBase
 {
     [SerializeField] private float bulletSpeed = 15f;  // 원하는 속도 조절
+    [SerializeField] private Slider baseHpSlider;
     [SerializeField] private GameObject busterEffect;
+    [SerializeField] private GameObject dashAttackDangerArea;
+    private float targetValue = 1f;
+
+    [Header("대시")]
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashCheckDistance = 1f;
+     [SerializeField] private bool isDashing = false;
+    private Vector2 dashDirection;
     private void Start()
     {
- 
+        baseHpSlider.gameObject.SetActive(false);
+        SetHP();
         base.Start();
     }
 
     private void Update()
     {
         base.Update();
+        baseHpSlider.value = Mathf.Lerp(baseHpSlider.value, targetValue, Time.deltaTime * 4f);
+        hpSlider.value = Mathf.Lerp(hpSlider.value, targetValue, Time.deltaTime * 8f);
+        ;
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            DashAttack();
+        }
+        if (isDashing)
+        {
+            transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+        }
+
+    }
+
+
+    private void DashAttack()
+    {
+        StartCoroutine(Cor_DashAttack());
+    }
+    IEnumerator Cor_DashAttack()
+    {
+        dashAttackDangerArea.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        dashAttackDangerArea.SetActive(false);
+
+        // 플레이어 위치 기준으로 좌우만 판단
+        float horizontal = playerTransform.position.x - transform.position.x;
+        if (horizontal > 0)
+            dashDirection = Vector2.right;  // 오른쪽
+        else
+            dashDirection = Vector2.left;   // 왼쪽
+
+        isDashing = true;
     }
     protected override IEnumerator Cor_Attack()
     {
@@ -54,6 +101,10 @@ public class RiderBoss : EnemyBase
 
         isAttacking = false;
     }
+    public void SetHP()
+    {
+        targetValue = hp/maxHp;
+    }
 
     void BulletFire()
     {
@@ -80,7 +131,6 @@ public class RiderBoss : EnemyBase
     {
         if (isDying) return;
 
-        hpSlider.gameObject.SetActive(true);
         hp -= amount;
         AudioManager.instance?.PlaySound(transform.position, "Hit", Random.Range(1f, 1.1f), 1f);
 
@@ -101,7 +151,8 @@ public class RiderBoss : EnemyBase
         Debug.Log($"Enemy damaged! HP: {hp}");
         CameraShake.instance.ShakeCamera(5f, 0.15f);
 
-        hpSlider.value = hp / maxHp;
+        SetHP();
+
 
         if (hp <= 0)
         {
@@ -117,9 +168,8 @@ public class RiderBoss : EnemyBase
         // Sprite Flip
         if (dir.x < 0)
         {
-            busterEffect.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             spriteren.flipX = false;
-
+           busterEffect.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         else
         {
@@ -137,6 +187,7 @@ public class RiderBoss : EnemyBase
         rb.AddForce(finalKnockback * 11f, ForceMode2D.Impulse);
 
         hpSlider.gameObject.SetActive(false);
+        baseHpSlider.gameObject.SetActive(false);
         StopCoroutine(hitCoroutine);
         spriteren.material = hitMaterial;
 
@@ -157,5 +208,12 @@ public class RiderBoss : EnemyBase
         yield return new WaitForSeconds(2f);
 
         Destroy(gameObject);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            isDashing = false;
+        }
     }
 }

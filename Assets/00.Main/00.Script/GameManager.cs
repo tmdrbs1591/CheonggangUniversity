@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject flash;
     public Transform itemUIPos;
     public GameObject interactionUI;
+    public GameObject riderBossHpSlider;
+    public GameObject riderBossBaseHpSlider;
 
     private void Awake()
     {
@@ -19,5 +21,10 @@ public class GameManager : MonoBehaviour
     {
         flash.SetActive(false);
         flash.SetActive(true);
+    }
+    public void RiderBossHpSliderActive()
+    {
+        riderBossHpSlider.SetActive(true);
+        riderBossBaseHpSlider.SetActive(true);
     }
 }
