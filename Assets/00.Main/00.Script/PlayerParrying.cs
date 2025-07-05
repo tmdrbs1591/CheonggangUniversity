@@ -34,7 +34,7 @@ public class PlayerParrying : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             StartCoroutine(Cor_ParryingObject());
         }

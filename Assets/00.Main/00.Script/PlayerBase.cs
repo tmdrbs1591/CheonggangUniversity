@@ -46,6 +46,7 @@ public class PlayerBase : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Color gunColor = Color.white;
     [SerializeField] private Color swordColor = Color.blue;
+    [SerializeField] private GameObject hitVolume;
 
     private Coroutine ghostCoroutine;
     public bool IsGrounded
@@ -153,6 +154,10 @@ public class PlayerBase : MonoBehaviour
 
     void SwordAttack()
     {
+        if (!playerAttack.CanAttack()) return;
+        playerAttack.lastAttackTime = Time.time;
+        playerAttack.attackComboIndex = (playerAttack.attackComboIndex + 1) % playerAttack.attackCoolTimes.Length;
+        playerAttack.lastAttackTime = Time.time;
         playerAttack.Damage(playerAttack.attackPos, playerAttack.attackBoxSize);
         AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
 
@@ -240,7 +245,8 @@ public class PlayerBase : MonoBehaviour
         else
         {
             playerStat.currentHp -= damage;
-            CameraShake.instance.ShakeCamera(5f, 0.15f);
+            CameraShake.instance.ShakeCamera(14f, 0.15f);
+            StartCoroutine(Cor_HitEffect());
             playerStat.UpdateUI();
         }
     }
@@ -293,6 +299,12 @@ public class PlayerBase : MonoBehaviour
         whirlwind.SetActive(false);
     }
 
+    IEnumerator Cor_HitEffect()
+    {
+        hitVolume.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        hitVolume.SetActive(false);
+    }
     public void PushForward(float force = 3f)
     {
         Vector2 dir = transform.localScale.x > 0 ? Vector2.right : Vector2.left;

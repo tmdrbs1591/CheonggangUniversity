@@ -26,6 +26,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] GameObject attackSlash1;
     [SerializeField] GameObject attackSlash2;
     private bool useFirstSlash = true;
+    [Header("Cool Settings")]
+    [SerializeField] public float[] attackCoolTimes = new float[] { 0.6f, 0.6f, 0.4f, 0.4f, 0.2f };
+    public int attackComboIndex = 0;
+    public float lastAttackTime = -999f; // 이전 공격 시점 저장
+    [SerializeField] public float comboResetTime = 1.5f;
     private void Start()
     {
         currentBigLaserValue = maxBigLaserValue;
@@ -50,6 +55,11 @@ public class PlayerAttack : MonoBehaviour
         scale.x = Mathf.Abs(scale.x) * sign;
         laserRotation.transform.localScale = scale;
 
+        if (Time.time > lastAttackTime + comboResetTime)
+        {
+            attackComboIndex = 0;
+        }
+
         // 기존 처리
         if (playerbase.currentAttackType == AttackType.Gun)
             UpdateLaserTrail(direction);
@@ -57,8 +67,10 @@ public class PlayerAttack : MonoBehaviour
             DisableLaserTrail();
     }
 
-
-
+    public bool CanAttack()
+    {
+        return Time.time >= lastAttackTime + attackCoolTimes[attackComboIndex];
+    }
     private void UpdateLaserTrail(Vector2 direction)
     {
         float maxDistance = 30f;
