@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 431d593c5df19a44f9cc6a656d53e34d, type: 2}
-  launchForce: 5
+  launchForce: 7
 --- !u!50 &883005673615430898
 Rigidbody2D:
   serializedVersion: 4

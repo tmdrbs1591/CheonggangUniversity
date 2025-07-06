@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RSkill
   m_EditorClassIdentifier: 
   id: 1
-  itemName: "\uAC01\uC131"
-  itemInfo: "\uAC01\uC131\uD569\uB2C8\uB2E4."
+  itemName: "\uC77C\uB3C4\uC5F0\uCC38"
+  itemInfo: "\uCC30\uB098\uC758 \uC21C\uAC04\uC5D0 \uC218\uC2ED \uBC88\uC758 \uC5F0\uC18D
+    \uCC38\uACA9\uC744 \uB0A0\uB9B0\uB2E4."
   value: 1
   icon: {fileID: 21300000, guid: 3020746bdf2ae60478692ed301fb4a42, type: 3}
   itemType: 5
