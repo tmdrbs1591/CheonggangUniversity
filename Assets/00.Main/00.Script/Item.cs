@@ -17,6 +17,11 @@ public class Item : ScriptableObject
     public enum ItemType
     {
         HealthPotion,
-        ManaPotion
+        ManaPotion,
+        QSkill,
+        WSkill,
+        ESkill,
+        RSkill,
+        UpRock,
     }
 }

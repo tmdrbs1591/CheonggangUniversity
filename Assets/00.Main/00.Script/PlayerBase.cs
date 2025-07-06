@@ -48,7 +48,7 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Color swordColor = Color.blue;
     [SerializeField] private GameObject hitVolume;
 
-    private Coroutine ghostCoroutine;
+    public Coroutine ghostCoroutine;
     public bool IsGrounded
     {
         get
@@ -215,6 +215,8 @@ public class PlayerBase : MonoBehaviour
 
     public void GhostSpawn()
     {
+        if (SkillManager.instance.ESkilling)
+            return;
         if (ghostCoroutine != null)
         {
             StopCoroutine(ghostCoroutine); // 이전 코루틴 중단

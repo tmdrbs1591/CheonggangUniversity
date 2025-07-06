@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7489ee5a3b8190d45a199dff4df908b2, type: 3}
   m_Name: BluePotion
   m_EditorClassIdentifier: 
-  id: 2
+  id: 0
   itemName: "\uB9C8\uB098\uBB3C\uC57D"
   itemInfo: "\uC0AC\uC6A9\uC2DC \uB9C8\uB098\uB97C 10 \uD68C\uBCF5\uD55C\uB2E4."
   value: 5

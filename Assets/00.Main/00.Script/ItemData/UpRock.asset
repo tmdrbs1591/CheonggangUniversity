@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7489ee5a3b8190d45a199dff4df908b2, type: 3}
+  m_Name: UpRock
+  m_EditorClassIdentifier: 
+  id: 0
+  itemName: "\uAC15\uD654\uC11D"
+  itemInfo: "\uC5C5\uADF8\uB808\uC774\uB4DC\uC5D0 \uD65C\uC6A9\uB429\uB2C8\uB2E4."
+  value: 1
+  icon: {fileID: -1559726748, guid: cf4d79e547cef2b41b69777305081328, type: 3}
+  itemType: 6

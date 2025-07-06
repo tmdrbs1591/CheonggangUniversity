@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Item;
 
 public class ItemPickup : MonoBehaviour
 {
@@ -30,15 +31,46 @@ public class ItemPickup : MonoBehaviour
     {
         if (!isPickup)
             return;
-        InventoryManager.instance.Add(item);
-        GameObject itemUI = ObjectPool.SpawnFromPool("ItemUI",GameManager.instance.itemUIPos.position);
+        if (item.id == 0)
+        {
+            InventoryManager.instance.Add(item);
+            SetUI();
+        }
+        else if (item.id == 1)
+        {
+            SetUI();
+            switch (item.itemType)
+            {
+                case ItemType.QSkill:
+                    SkillManager.instance.QSkill.gameObject.SetActive(true);
+                    SkillManager.instance.QSkillActive = true;
+                    break;
+                case ItemType.WSkill:
+                    SkillManager.instance.WSkill.gameObject.SetActive(true);
+                    SkillManager.instance.WSkillActive = true;
+                    break;
+                case ItemType.ESkill:
+                    SkillManager.instance.ESkill.gameObject.SetActive(true);
+                    SkillManager.instance.ESkillActive = true;
+                    break;
+                case ItemType.RSkill:
+                    SkillManager.instance.RSkill.gameObject.SetActive(true);
+                    SkillManager.instance.RSkillActive = true;
+                    break;
+            }
+        }
+        Destroy(gameObject);
+
+    }
+
+    private void SetUI()
+    {
+        GameObject itemUI = ObjectPool.SpawnFromPool("ItemUI", GameManager.instance.itemUIPos.position);
         itemUI.transform.SetParent(GameManager.instance.itemUIPos, false);
         var itemName = itemUI.transform.Find("ItemName").GetComponent<TMP_Text>();
         var itemIcon = itemUI.transform.Find("ItemIcon").GetComponent<Image>();
         AudioManager.instance?.PlaySound(transform.position, "item", UnityEngine.Random.Range(1f, 1.2f), 1f);
-
         itemName.text = item.itemName + " X1";
         itemIcon.sprite = item.icon;
-        Destroy(gameObject);
     }
 }

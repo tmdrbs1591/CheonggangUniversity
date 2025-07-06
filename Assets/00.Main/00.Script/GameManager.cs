@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject riderBossHpSlider;
     public GameObject riderBossBaseHpSlider;
 
+
     private void Awake()
     {
         instance = this;
