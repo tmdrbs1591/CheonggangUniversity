@@ -26,7 +26,10 @@ public class PlayerSkill : MonoBehaviour
     [Header("R 스킬 UI")]
     [SerializeField] private Slider rSlider;
     [SerializeField] private TMP_Text rCooldownText;
-
+    [SerializeField] private GameObject skillEffect;
+    [SerializeField] private GameObject eyeLaserEffect;
+    [SerializeField] public Transform attackPos;
+    [SerializeField] public Vector2 attackBoxSize;
     // 마지막 사용 시간
     private float qLastUsed = -Mathf.Infinity;
     private float wLastUsed = -Mathf.Infinity;
@@ -36,6 +39,7 @@ public class PlayerSkill : MonoBehaviour
 
     public Ghost ghost;
     public PlayerStat PlayerStat;
+    public PlayerBase Player;
 
     private Coroutine ghostCoroutine;
 
@@ -117,9 +121,31 @@ public class PlayerSkill : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            eyeLaserEffect.SetActive(false);
+            eyeLaserEffect.SetActive(true);
+            AudioManager.instance?.PlaySound(transform.position, "서브레이저2", Random.Range(1f, 1.2f), 1f);
             Debug.Log("R 궁극기 발동");
             rLastUsed = Time.time;
+            StartCoroutine(Cor_RSkill());
         }
+    }
+    private IEnumerator Cor_RSkill()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        DialogManager.instance.isDialogActive = true;
+        Player.spriteRenderer.enabled = false;
+
+        skillEffect.SetActive(false);
+        skillEffect.SetActive(true);
+        for (int i = 0; i < 12; i++)
+        {
+            Damage(attackPos,attackBoxSize);
+            AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
+            yield return new WaitForSeconds(0.095f);
+        }
+        DialogManager.instance.isDialogActive = false;
+        Player.spriteRenderer.enabled = true;
     }
 
     private bool CanUseSkill(float lastUsedTime, float cooldown)
@@ -142,6 +168,30 @@ public class PlayerSkill : MonoBehaviour
         {
             slider.gameObject.SetActive(false); // 필요 시 숨기기
             text.text = " ";
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(attackPos.position, attackBoxSize);
+    }
+
+    public void Damage(Transform t, Vector2 v)
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(t.position, v, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            Debug.Log("공격!");
+            if (collider != null)
+            {
+                IDamageable damageable = collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(Random.Range(PlayerStat.attackPower, PlayerStat.attackPower + 5));
+                }
+
+            }
         }
     }
 }

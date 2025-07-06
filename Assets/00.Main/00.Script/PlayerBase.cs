@@ -35,7 +35,7 @@ public class PlayerBase : MonoBehaviour
     public PlayerParrying playerParrying;
 
     private IPlayerState currentState;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     private Animator anim;
     public Rigidbody2D rb;
 

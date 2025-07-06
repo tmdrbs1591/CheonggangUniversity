@@ -16,5 +16,5 @@ MonoBehaviour:
   itemName: "\uAC01\uC131"
   itemInfo: "\uAC01\uC131\uD569\uB2C8\uB2E4."
   value: 1
-  icon: {fileID: 21300000, guid: 78bc49c8fdcdda3418ce662236f1330b, type: 3}
+  icon: {fileID: 21300000, guid: 3020746bdf2ae60478692ed301fb4a42, type: 3}
   itemType: 5
