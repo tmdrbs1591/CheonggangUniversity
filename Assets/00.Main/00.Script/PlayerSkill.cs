@@ -14,6 +14,7 @@ public class PlayerSkill : MonoBehaviour
     [Header("Q 스킬 UI")]
     [SerializeField] private Slider qSlider;
     [SerializeField] private TMP_Text qCooldownText;
+    [SerializeField] GameObject qSkillLaserPrefab;
 
     [Header("W 스킬 UI")]
     [SerializeField] private Slider wSlider;
@@ -64,6 +65,11 @@ public class PlayerSkill : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("Q 스킬 사용");
+            AudioManager.instance?.PlaySound(transform.position, "서브레이저", Random.Range(1f, 1.1f), 1f);
+            AudioManager.instance?.PlaySound(transform.position, "서브레이저2", Random.Range(1f, 1.1f), 1f);
+            qSkillLaserPrefab.SetActive(false);
+            qSkillLaserPrefab.SetActive(true);
+            CameraShake.instance.ShakeCamera(8f, 0.3f);
             qLastUsed = Time.time;
         }
     }
@@ -145,6 +151,7 @@ public class PlayerSkill : MonoBehaviour
             Damage(attackPos,attackBoxSize);
             AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
             AudioManager.instance?.PlaySound(transform.position, "RskillSlash", Random.Range(1f, 1.1f), 1f);
+            CameraShake.instance.ShakeCamera(4f, 0.2f);
 
             yield return new WaitForSeconds(0.095f);
         }
