@@ -62,9 +62,10 @@ public class PlayerSkill : MonoBehaviour
         if (!SkillManager.instance.QSkillActive) return;
         if (!CanUseSkill(qLastUsed, qCooldown)) return;
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && PlayerStat.currentMana >= 10)
         {
             Debug.Log("Q 스킬 사용");
+            PlayerStat.ManaUse(10);
             AudioManager.instance?.PlaySound(transform.position, "서브레이저", Random.Range(1f, 1.1f), 1f);
             AudioManager.instance?.PlaySound(transform.position, "서브레이저2", Random.Range(1f, 1.1f), 1f);
             qSkillLaserPrefab.SetActive(false);
@@ -79,8 +80,9 @@ public class PlayerSkill : MonoBehaviour
         if (!SkillManager.instance.WSkillActive) return;
         if (!CanUseSkill(wLastUsed, wCooldown)) return;
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && PlayerStat.currentMana >= 10)
         {
+            PlayerStat.ManaUse(10);
             Debug.Log("W 스킬 유지형 사용");
             wLastUsed = Time.time;
         }
@@ -91,9 +93,10 @@ public class PlayerSkill : MonoBehaviour
         if (!SkillManager.instance.ESkillActive) return;
         if (!CanUseSkill(eLastUsed, eCooldown)) return;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && PlayerStat.currentMana >= 20)
         {
             Debug.Log("E 스킬 사용 - 순간이동");
+            PlayerStat.ManaUse(20);
             eLastUsed = Time.time;
 
             if (ghostCoroutine != null)
@@ -125,8 +128,9 @@ public class PlayerSkill : MonoBehaviour
         if (!SkillManager.instance.RSkillActive) return;
         if (!CanUseSkill(rLastUsed, rCooldown)) return;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && PlayerStat.currentMana >= 40)
         {
+            PlayerStat.ManaUse(40);
             eyeLaserEffect.SetActive(false);
             eyeLaserEffect.SetActive(true);
             AudioManager.instance?.PlaySound(transform.position, "서브레이저2", Random.Range(1f, 1.2f), 1f);

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: QSkill
   m_EditorClassIdentifier: 
   id: 1
-  itemName: "\uC6A9\uC758 \uC544\uAC00\uB9AC"
-  itemInfo: "\uC6A9\uC744 \uB0A0\uB824 \uACF5\uACA9\uD569\uB2C8\uB2E4."
+  itemName: "\uC808\uBA78\uAD11"
+  itemInfo: "\uC9C1\uC120\uC0C1\uC758 \uC801\uC744 \uAFF0\uB6AB\uB294 \uAD11\uC120\uC744
+    \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   value: 1
   icon: {fileID: 21300000, guid: 631786fa22e17dc4ea5e11ae48c486f3, type: 3}
   itemType: 2
