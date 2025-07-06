@@ -113,12 +113,12 @@ TextureImporter:
       name: "ChatGPT Image 2025\uB144 6\uC6D4 29\uC77C \uC624\uD6C4 12_38_23_0"
       rect:
         serializedVersion: 2
-        x: 12
-        y: 0
-        width: 743
-        height: 1024
+        x: 180
+        y: 233
+        width: 496
+        height: 513
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: "ChatGPT Image 2025\uB144 6\uC6D4 29\uC77C \uC624\uD6C4 12_38_23_1"
       rect:
         serializedVersion: 2
-        x: 772
-        y: 1
-        width: 753
-        height: 1022
+        x: 828
+        y: 236
+        width: 519
+        height: 539
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

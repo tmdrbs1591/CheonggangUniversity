@@ -8,9 +8,11 @@ public class ItemPickup : MonoBehaviour
 {
     public Item item;
     public float launchForce = 5f; // Æ¢´Â Èû ¼¼±â Á¶Àý
+    bool isPickup;
 
     private void Start()
     {
+        StartCoroutine(Cor_IsPickUp());
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -19,8 +21,15 @@ public class ItemPickup : MonoBehaviour
         }
     }
 
+    IEnumerator Cor_IsPickUp()
+    {
+        yield return new WaitForSeconds(0.2f);
+        isPickup = true;
+    }
     public void Pickup()
     {
+        if (!isPickup)
+            return;
         InventoryManager.instance.Add(item);
         GameObject itemUI = ObjectPool.SpawnFromPool("ItemUI",GameManager.instance.itemUIPos.position);
         itemUI.transform.SetParent(GameManager.instance.itemUIPos, false);
