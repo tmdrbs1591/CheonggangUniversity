@@ -124,6 +124,8 @@ public class PlayerSkill : MonoBehaviour
             eyeLaserEffect.SetActive(false);
             eyeLaserEffect.SetActive(true);
             AudioManager.instance?.PlaySound(transform.position, "º≠∫Í∑π¿Ã¿˙2", Random.Range(1f, 1.2f), 1f);
+            AudioManager.instance?.PlaySound(transform.position, "RSkill", Random.Range(1f, 1.2f), 1f);
+            GameManager.instance.Flash();
             Debug.Log("R ±√±ÿ±‚ πﬂµø");
             rLastUsed = Time.time;
             StartCoroutine(Cor_RSkill());
@@ -142,6 +144,8 @@ public class PlayerSkill : MonoBehaviour
         {
             Damage(attackPos,attackBoxSize);
             AudioManager.instance?.PlaySound(transform.position, "Sword", Random.Range(1f, 1.2f), 1f);
+            AudioManager.instance?.PlaySound(transform.position, "RskillSlash", Random.Range(1f, 1.1f), 1f);
+
             yield return new WaitForSeconds(0.095f);
         }
         DialogManager.instance.isDialogActive = false;
