@@ -20,6 +20,7 @@ public class RiderBoss : EnemyBase
 
     private float targetValue = 1f;
     private bool isDashing = false;
+    public bool isBattle = false;
     private Vector2 dashDirection;
 
     private float circleBulletTimer = 0f;
@@ -37,7 +38,7 @@ public class RiderBoss : EnemyBase
     {
         if (isDying || playerTransform == null) return;
 
-        if (TimeLineManager.instance.isCutScene) return;
+        if (TimeLineManager.instance.isCutScene || !isBattle) return;
             base.Update();
 
         baseHpSlider.value = Mathf.Lerp(baseHpSlider.value, targetValue, Time.deltaTime * 4f);

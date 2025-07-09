@@ -20,7 +20,9 @@ public class Teleport : MonoBehaviour
         FadeManager.instance.FadeInOut();
         yield return new WaitForSeconds(1f);
         collision.transform.position = targetPosition.transform.position;
+        GameManager.instance.playerCont.AnimationBool("Move", false);
+        yield return new WaitForSeconds(0.1f);
+        GameManager.instance.playerCont.gameObject.transform.localScale = new Vector3(4, 4, 4);
         gameObject.SetActive(false);
-
     }
 }

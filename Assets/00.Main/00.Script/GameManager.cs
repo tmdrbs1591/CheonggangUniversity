@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject interactionUI;
     public GameObject riderBossHpSlider;
     public GameObject riderBossBaseHpSlider;
-
+    public RiderBoss riderboss;
 
     private void Awake()
     {
@@ -27,5 +27,6 @@ public class GameManager : MonoBehaviour
     {
         riderBossHpSlider.SetActive(true);
         riderBossBaseHpSlider.SetActive(true);
+        riderboss.isBattle = true;  
     }
 }

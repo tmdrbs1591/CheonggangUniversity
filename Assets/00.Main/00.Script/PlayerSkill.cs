@@ -46,6 +46,8 @@ public class PlayerSkill : MonoBehaviour
 
     private void Update()
     {
+        if (DialogManager.instance.isDialogActive || TimeLineManager.instance.isCutScene)
+            return;
         QSkill();
         WSkill();
         ESkill();
