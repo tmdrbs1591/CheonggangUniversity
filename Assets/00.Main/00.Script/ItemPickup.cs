@@ -57,6 +57,22 @@ public class ItemPickup : MonoBehaviour
                     SkillManager.instance.RSkill.gameObject.SetActive(true);
                     SkillManager.instance.RSkillActive = true;
                     break;
+                case ItemType.FirePasivSkill:
+                    SkillManager.instance.firePasivSkill.gameObject.SetActive(true);
+                    SkillManager.instance.firePasivSkillActive = true;
+                    break;
+                case ItemType.HpPasivSkill:
+                    SkillManager.instance.hpPasivSkill.gameObject.SetActive(true);
+                    SkillManager.instance.hpPasivSkillActive = true;
+                    break;
+                case ItemType.DoubleAttackPasivSkill:
+                    SkillManager.instance.doubleAttackPasivSkill.gameObject.SetActive(true);
+                    SkillManager.instance.doubleAttackPasivSkillActive = true;
+                    break;
+                case ItemType.DashManaPasivSkill:
+                    SkillManager.instance.dashManaPasivSkill.gameObject.SetActive(true);
+                    SkillManager.instance.dashManaPasivSkillActive = true;
+                    break;
             }
         }
         Destroy(gameObject);

@@ -23,5 +23,10 @@ public class Item : ScriptableObject
         ESkill,
         RSkill,
         UpRock,
+        FirePasivSkill,
+        HpPasivSkill,
+        DoubleAttackPasivSkill,
+        DashManaPasivSkill,
+
     }
 }
