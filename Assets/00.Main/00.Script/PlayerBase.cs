@@ -141,10 +141,11 @@ public class PlayerBase : MonoBehaviour
         float inputX = Input.GetAxisRaw("Horizontal");
 
         // 대시 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isDashing && inputX != 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isDashing && inputX != 0 && playerStat.currentMana >= 5)
         {
             StartCoroutine(Dash(inputX));
-            GhostSpawn();
+            playerStat.ManaUse(5);
+            GhostSpawn();;
         }
 
 

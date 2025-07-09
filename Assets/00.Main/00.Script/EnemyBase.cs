@@ -129,7 +129,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    protected IEnumerator Cor_TimdSlow()
+    protected virtual IEnumerator Cor_TimdSlow()
     {
         Time.timeScale = 0.1f;
         yield return new WaitForSecondsRealtime(0.3f);
@@ -155,7 +155,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
             ObjectPool.SpawnFromPool("EXP", transform.position);
         }
     }
-    protected void SpawnRandomItem(Vector2 spawnPos)
+    protected virtual void  SpawnRandomItem(Vector2 spawnPos)
     {
         if (InventoryManager.instance.itemPrefabs == null || InventoryManager.instance.itemPrefabs.Length == 0)
         {

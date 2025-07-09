@@ -6,17 +6,26 @@ using UnityEngine.UI;
 
 public class RiderBoss : EnemyBase
 {
-    [SerializeField] private float bulletSpeed = 15f;  // 원하는 속도 조절
+    [SerializeField] private float bulletSpeed = 15f;
     [SerializeField] private Slider baseHpSlider;
     [SerializeField] private GameObject busterEffect;
     [SerializeField] private GameObject dashAttackDangerArea;
-    private float targetValue = 1f;
-
-    [Header("대시")]
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float dashCheckDistance = 1f;
-     [SerializeField] private bool isDashing = false;
+    [SerializeField] private int circleBulletCount = 12;
+    [SerializeField] private float circleBulletInterval = 3f;
+    [SerializeField] private float dashAttackInterval = 5f;
+    [SerializeField] private GameObject skillItem;
+    [SerializeField] private GameObject door;
+
+    private float targetValue = 1f;
+    private bool isDashing = false;
     private Vector2 dashDirection;
+
+    private float circleBulletTimer = 0f;
+    private float dashAttackTimer = 0f;
+
+
     private void Start()
     {
         baseHpSlider.gameObject.SetActive(false);
@@ -26,52 +35,86 @@ public class RiderBoss : EnemyBase
 
     private void Update()
     {
-        base.Update();
+        if (isDying || playerTransform == null) return;
+
+        if (TimeLineManager.instance.isCutScene) return;
+            base.Update();
+
         baseHpSlider.value = Mathf.Lerp(baseHpSlider.value, targetValue, Time.deltaTime * 4f);
         hpSlider.value = Mathf.Lerp(hpSlider.value, targetValue, Time.deltaTime * 8f);
-        ;
-        if (Input.GetKeyDown(KeyCode.K))
+
+        // 대시 공격 타이머
+        dashAttackTimer += Time.deltaTime;
+        if (dashAttackTimer >= dashAttackInterval)
         {
+            dashAttackTimer = 0f;
             DashAttack();
         }
+
+        // 원형 총알 발사 타이머
+        circleBulletTimer += Time.deltaTime;
+        if (circleBulletTimer >= circleBulletInterval)
+        {
+            circleBulletTimer = 0f;
+            CircleBulletFire();
+        }
+
         if (isDashing)
         {
             transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
         }
-
     }
-
 
     private void DashAttack()
     {
         StartCoroutine(Cor_DashAttack());
     }
+
     IEnumerator Cor_DashAttack()
     {
         dashAttackDangerArea.SetActive(true);
-
         yield return new WaitForSeconds(1f);
-
         dashAttackDangerArea.SetActive(false);
 
-        // 플레이어 위치 기준으로 좌우만 판단
         float horizontal = playerTransform.position.x - transform.position.x;
         if (horizontal > 0)
-            dashDirection = Vector2.right;  // 오른쪽
+            dashDirection = Vector2.right;
         else
-            dashDirection = Vector2.left;   // 왼쪽
+            dashDirection = Vector2.left;
 
         isDashing = true;
     }
+
+    private void CircleBulletFire()
+    {
+        for (int i = 0; i < circleBulletCount; i++)
+        {
+            float angle = 360f / circleBulletCount * i;
+            float radian = angle * Mathf.Deg2Rad;
+            Vector2 dir = new Vector2(Mathf.Cos(radian), Mathf.Sin(radian)).normalized;
+
+            GameObject bulletObj = ObjectPool.SpawnFromPool("DroneBullet", transform.position);
+
+            if (bulletObj != null)
+            {
+                Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+                if (bulletRb != null)
+                {
+                    bulletRb.velocity = dir * bulletSpeed;
+                }
+
+                bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
+        }
+    }
+
     protected override IEnumerator Cor_Attack()
     {
         isAttacking = true;
         rb.velocity = Vector2.zero;
-
         dangerLineRenderer.enabled = true;
 
         float elapsedTime = 0f;
-
         while (elapsedTime < lineDuration)
         {
             if (playerTransform == null) yield break;
@@ -84,26 +127,18 @@ public class RiderBoss : EnemyBase
             dangerLineRenderer.SetPosition(1, endPoint);
 
             elapsedTime += Time.deltaTime;
-            yield return null; // 다음 프레임까지 대기 (실시간 업데이트)
+            yield return null;
         }
 
         dangerLineRenderer.enabled = false;
-
         Debug.Log("공격!");
 
-        // 플레이어 방향으로 불렛 발사
         BulletFire();
 
-        // 쿨타임 시작
         currentCoolTime = attackCoolTime;
 
         yield return new WaitForSeconds(1f);
-
         isAttacking = false;
-    }
-    public void SetHP()
-    {
-        targetValue = hp/maxHp;
     }
 
     void BulletFire()
@@ -111,7 +146,6 @@ public class RiderBoss : EnemyBase
         if (playerTransform == null) return;
 
         GameObject bulletObj = ObjectPool.SpawnFromPool("DroneBullet", transform.position);
-
         if (bulletObj != null)
         {
             Vector2 shootDir = (playerTransform.position - transform.position).normalized;
@@ -127,6 +161,11 @@ public class RiderBoss : EnemyBase
         }
     }
 
+    public void SetHP()
+    {
+        targetValue = hp / maxHp;
+    }
+
     public override void TakeDamage(float amount)
     {
         if (isDying) return;
@@ -135,7 +174,6 @@ public class RiderBoss : EnemyBase
         AudioManager.instance?.PlaySound(transform.position, "Hit", Random.Range(1f, 1.1f), 1f);
 
         var randomOffset = (Vector2)Random.insideUnitCircle * 1.5f;
-
         var damageText = ObjectPool.SpawnFromPool("DamageText", transform.position + (Vector3)randomOffset);
         damageText.GetComponent<TMPro.TMP_Text>().text = amount.ToString();
 
@@ -153,23 +191,21 @@ public class RiderBoss : EnemyBase
 
         SetHP();
 
-
         if (hp <= 0)
         {
             StartCoroutine(Cor_Die());
         }
     }
+
     protected override void FollowPlayer()
     {
-
         Vector2 dir = (playerTransform.position - transform.position).normalized;
         rb.velocity = new Vector2(dir.x * moveSpeed, rb.velocity.y);
 
-        // Sprite Flip
         if (dir.x < 0)
         {
             spriteren.flipX = false;
-           busterEffect.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            busterEffect.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         else
         {
@@ -177,13 +213,13 @@ public class RiderBoss : EnemyBase
             spriteren.flipX = true;
         }
     }
+
     protected override IEnumerator Cor_Die()
     {
         isDying = true;
+
         Vector2 knockbackDir = (transform.position - GameManager.instance.playerCont.transform.position).normalized;
-
         Vector2 finalKnockback = (knockbackDir + new Vector2(0, 1f)).normalized;
-
         rb.AddForce(finalKnockback * 11f, ForceMode2D.Impulse);
 
         hpSlider.gameObject.SetActive(false);
@@ -201,19 +237,41 @@ public class RiderBoss : EnemyBase
         spriteren.material = originalMaterial;
         collider.isTrigger = true;
         rb.gravityScale = 2f;
+
         AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
         AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
         OnDeath?.Invoke(this);
 
-        yield return new WaitForSeconds(2f);
-
+        Destroy(door);
+        yield return new WaitForSecondsRealtime(2.2f);
         Destroy(gameObject);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
+    {
+      
+       
+    }
+    protected override IEnumerator Cor_TimdSlow()
+    {
+        Time.timeScale = 0.1f;
+        yield return new WaitForSecondsRealtime(2f);
+        Time.timeScale = 1f;
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
             isDashing = false;
         }
+        if (collision.gameObject.CompareTag("Player") && isDashing)
+        {
+            collision.gameObject.GetComponent<PlayerBase>().TakeDamage(10);
+        }
+    }
+    protected override void SpawnRandomItem(Vector2 spawnPos)
+    {
+        Instantiate(skillItem, spawnPos, Quaternion.identity);
     }
 }
