@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject riderBossBaseHpSlider;
     public RiderBoss riderboss;
 
+    public GameObject hackingProgram;
+
     private void Awake()
     {
         instance = this;

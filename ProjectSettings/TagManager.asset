@@ -11,6 +11,7 @@ TagManager:
   - CutScene
   - StoneButton
   - Chest
+  - Hacking
   layers:
   - Default
   - TransparentFX

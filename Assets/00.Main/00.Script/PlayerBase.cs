@@ -356,7 +356,7 @@ public class PlayerBase : MonoBehaviour
 
                 break;
             }
-            else if (collider != null && collider.CompareTag("StoneButton"))
+            else if (collider != null && collider.CompareTag("StoneButton") || collider != null && collider.CompareTag("Hacking"))
             {
                 npcFound = true;
 
@@ -366,7 +366,7 @@ public class PlayerBase : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    collider.GetComponent<StoneButton>().EventStart();
+                    collider.GetComponent<Interaction>().EventStart();
                     Debug.Log("Ads");
                     GameManager.instance.interactionUI.SetActive(false);
 
