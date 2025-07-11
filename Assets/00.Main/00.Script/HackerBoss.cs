@@ -17,7 +17,7 @@ public class HackerBoss : EnemyBase
     [SerializeField] GameObject[] dangerLines;
     [SerializeField] Transform[] movePos;
 
-
+    public Door door;
     private void Start()
     {
         baseHpSlider.gameObject.SetActive(false);
@@ -232,6 +232,7 @@ public class HackerBoss : EnemyBase
         AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
         OnDeath?.Invoke(this);
 
+        Destroy(door.gameObject);
         yield return new WaitForSecondsRealtime(2.2f);
         Destroy(gameObject);
     }

@@ -7,6 +7,7 @@ public class DroneEnemy : EnemyBase
     [SerializeField] private GameObject Bullet;
     [SerializeField] private float bulletSpeed = 15f;  // 원하는 속도 조절
 
+    [SerializeField] string bulletName;
     private void Start()
     {
         base.Start();
@@ -59,7 +60,7 @@ public class DroneEnemy : EnemyBase
     {
         if (playerTransform == null) return;
 
-        GameObject bulletObj = ObjectPool.SpawnFromPool("DroneBullet", transform.position);
+        GameObject bulletObj = ObjectPool.SpawnFromPool(bulletName, transform.position);
 
         if (bulletObj != null)
         {

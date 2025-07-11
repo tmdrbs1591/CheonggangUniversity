@@ -14,6 +14,9 @@ public class LevelManager : MonoBehaviour
 
     public Slider levelSlider;
     public TMP_Text levelText;
+    public PlayerStat playerStat;
+
+    public GameObject levelUpObject;
 
     private void Awake()
     {
@@ -38,6 +41,9 @@ public class LevelManager : MonoBehaviour
     {
         if (currentLevelValue >= maxLevelValue)
         {
+            levelUpObject.SetActive(false);
+            levelUpObject.SetActive(true);
+            playerStat.LevelUP();
             currentLevelValue -= maxLevelValue; // 남은 경험치는 다음 레벨로 이월
             currentLevel++;
             maxLevelValue *= levelGrowthRate;

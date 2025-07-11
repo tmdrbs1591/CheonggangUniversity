@@ -66,6 +66,7 @@ MonoBehaviour:
   attackCoolTime: 2
   Bullet: {fileID: 0}
   bulletSpeed: 30
+  bulletName: DroneBullet
 --- !u!61 &8138441398670911045
 BoxCollider2D:
   m_ObjectHideFlags: 0

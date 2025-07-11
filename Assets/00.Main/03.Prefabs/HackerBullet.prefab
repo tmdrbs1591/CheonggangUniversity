@@ -162,3 +162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: HackerBullet
+  effectname: HackerBulletEffect

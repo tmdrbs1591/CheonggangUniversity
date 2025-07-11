@@ -26,6 +26,14 @@ public class PlayerStat : MonoBehaviour
     {
         StartCoroutine(ManaRegenCoroutine());
     }
+    public void LevelUP()
+    {
+        maxHp += 20;
+        currentHp = maxHp;
+        maxMana += 20;
+        currentMana = maxMana;
+        attackPower += 5;
+    }
 
     private IEnumerator ManaRegenCoroutine()
     {

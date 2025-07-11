@@ -2,13 +2,15 @@ using UnityEngine;
 public enum EnemyType
 {
     Robot,
-    Drone
+    Drone,
+    LightningDrone
 }
 
 public class EnemyFactory : MonoBehaviour
 {
     [SerializeField] private GameObject robotPrefab;
     [SerializeField] private GameObject dronePrefab;
+    [SerializeField] private GameObject lightningDroneDronePrefab;
 
     public EnemyBase CreateEnemy(EnemyType type, Vector3 position)
     {
@@ -21,6 +23,9 @@ public class EnemyFactory : MonoBehaviour
                 break;
             case EnemyType.Drone:
                 prefab = dronePrefab;
+                break;
+            case EnemyType.LightningDrone:
+                prefab = lightningDroneDronePrefab;
                 break;
         }
 

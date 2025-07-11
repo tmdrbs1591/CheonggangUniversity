@@ -13,6 +13,7 @@ TagManager:
   - Chest
   - Hacking
   - SpecialChest
+  - LightningBullet
   layers:
   - Default
   - TransparentFX
