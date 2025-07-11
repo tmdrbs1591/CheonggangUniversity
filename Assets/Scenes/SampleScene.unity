@@ -2625,10 +2625,10 @@ RectTransform:
   - {fileID: 325113133}
   - {fileID: 135881566}
   - {fileID: 2036589907}
+  - {fileID: 159979598}
   - {fileID: 277292332}
   - {fileID: 32419185}
   - {fileID: 26638632}
-  - {fileID: 159979598}
   - {fileID: 744545228}
   - {fileID: 541540601}
   m_Father: {fileID: 0}
@@ -10092,7 +10092,7 @@ GameObject:
   - component: {fileID: 159979599}
   - component: {fileID: 159979601}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "\uC9C0\uC5ED \uD14D\uC2A4\uCE20"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46773,6 +46773,7 @@ GameObject:
   - component: {fileID: 828674314}
   - component: {fileID: 828674313}
   - component: {fileID: 828674312}
+  - component: {fileID: 828674315}
   m_Layer: 0
   m_Name: Cut (1)
   m_TagString: CutScene
@@ -46853,6 +46854,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &828674315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828674311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a479a4fde681ad2489189233d2e3d097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 1041454716}
+  changeSprite: {fileID: 21300000, guid: 8b117d99d18a28247afac8c6f9093e34, type: 3}
+  stageName: "-\uBC84\uB824\uC9C4 \uC9C0\uD558 \uB3C4\uC2DC \uAD6C\uC5ED- "
 --- !u!1 &829737396
 GameObject:
   m_ObjectHideFlags: 0
@@ -48820,6 +48836,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1041454716}
   changeSprite: {fileID: 21300000, guid: 945a84a20ec6dc34f9b6d29a3324f7b9, type: 3}
+  stageName: "-\uBE44\uBC00 \uC870\uC9C1\uC758 \uAE30\uC9C0-"
 --- !u!61 &898859929
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -58668,6 +58685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1041454716}
   changeSprite: {fileID: 21300000, guid: 945a84a20ec6dc34f9b6d29a3324f7b9, type: 3}
+  stageName: "-\uBE44\uBC00 \uC870\uC9C1\uC758 \uAE30\uC9C0-"
 --- !u!61 &1172818868
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -61724,6 +61742,7 @@ GameObject:
   - component: {fileID: 1275904205}
   - component: {fileID: 1275904204}
   - component: {fileID: 1275904206}
+  - component: {fileID: 1275904207}
   m_Layer: 0
   m_Name: Cut
   m_TagString: CutScene
@@ -61804,6 +61823,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+--- !u!114 &1275904207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275904203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a479a4fde681ad2489189233d2e3d097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 1041454716}
+  changeSprite: {fileID: 21300000, guid: 8b117d99d18a28247afac8c6f9093e34, type: 3}
+  stageName: "-\uBC84\uB824\uC9C4 \uC9C0\uD558 \uB3C4\uC2DC \uAD6C\uC5ED- "
 --- !u!1 &1277798181
 GameObject:
   m_ObjectHideFlags: 0
@@ -77263,6 +77297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e796718574c938444a80f9cc15fa9e51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageText: {fileID: 159979599}
   playerCont: {fileID: 647164284}
   flash: {fileID: 1319761680}
   itemUIPos: {fileID: 791815883}
