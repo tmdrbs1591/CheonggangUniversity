@@ -14,6 +14,8 @@ public class HackerBoss : EnemyBase
     private bool isDashing = false;
     public bool isBattle = false;
 
+    [SerializeField] GameObject[] dangerLines;
+    [SerializeField] Transform[] movePos;
 
 
     private void Start()
@@ -21,31 +23,145 @@ public class HackerBoss : EnemyBase
         baseHpSlider.gameObject.SetActive(false);
         SetHP();
         base.Start();
+
     }
+
+    private bool wasBattle = false;
 
     private void Update()
     {
         if (isDying || playerTransform == null) return;
+        if (TimeLineManager.instance.isCutScene) return;
 
-        if (TimeLineManager.instance.isCutScene || !isBattle ) return;
         base.Update();
 
         baseHpSlider.value = Mathf.Lerp(baseHpSlider.value, targetValue, Time.deltaTime * 4f);
         hpSlider.value = Mathf.Lerp(hpSlider.value, targetValue, Time.deltaTime * 8f);
 
+        // isBattle이 false → true로 바뀌는 순간 감지
+        if (!wasBattle && isBattle)
+        {
+            wasBattle = true;
+
+            // ★ 여기서 한 번만 실행할 코드 작성
+            FollowPlayer(); // 예시: 움직임 시작
+            StartCoroutine(Cor_Attack()); // 예시: 첫 공격 시작
+        }
     }
 
+
+
+    private Coroutine moveCoroutine;
 
     protected override void FollowPlayer()
     {
+        if (moveCoroutine == null)
+            moveCoroutine = StartCoroutine(Cor_MoveLoop());
+    }
 
+    private IEnumerator Cor_MoveLoop()
+    {
+        while (true)
+        {
+            if (movePos.Length == 0) yield break;
+
+            Transform target = movePos[Random.Range(0, movePos.Length)];
+            Vector3 startPos = transform.position;
+            Vector3 endPos = target.position;
+
+            float duration = 0.7f;
+            float elapsed = 0f;
+
+            // 부드러운 이동
+            while (elapsed < duration)
+            {
+                transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = endPos;
+
+            yield return new WaitForSeconds(2f); // 다음 이동까지 대기 (총 3초 주기)
+        }
     }
 
 
+    private int attackCount = 0; // 공격 횟수 카운트
 
     protected override IEnumerator Cor_Attack()
     {
-    
+        if (dangerLines.Length == 0)
+            yield break;
+
+        currentCoolTime = attackCoolTime;
+
+        attackCount++;
+
+        if (attackCount >= 5)
+        {
+            // 전 범위 공격
+            foreach (var line in dangerLines)
+            {
+                if (line == null) continue;
+
+                line.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(0.5f); // 경고 시간
+
+            foreach (var line in dangerLines)
+            {
+                if (line == null) continue;
+
+                line.SetActive(false);
+
+                Vector3 spawnPos = line.transform.position;
+                GameObject bulletObj = ObjectPool.SpawnFromPool("HackerBullet", spawnPos);
+
+                if (bulletObj != null)
+                {
+                    Vector2 shootDir = Vector2.down;
+                    Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+                    if (bulletRb != null)
+                    {
+                        bulletRb.velocity = shootDir * bulletSpeed;
+                    }
+
+                    float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+                    bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+                }
+            }
+
+            attackCount = 0; // 카운트 초기화
+        }
+        else
+        {
+            // 랜덤 한 곳만 공격
+            int randIndex = Random.Range(0, dangerLines.Length);
+            GameObject targetLine = dangerLines[randIndex];
+
+            targetLine.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            targetLine.SetActive(false);
+
+            Vector3 spawnPos = targetLine.transform.position;
+            GameObject bulletObj = ObjectPool.SpawnFromPool("HackerBullet", spawnPos);
+
+            if (bulletObj != null)
+            {
+                Vector2 shootDir = Vector2.down;
+                Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+                if (bulletRb != null)
+                {
+                    bulletRb.velocity = shootDir * bulletSpeed;
+                }
+
+                float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+                bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
+        }
+
         yield return new WaitForSeconds(1f);
     }
 
