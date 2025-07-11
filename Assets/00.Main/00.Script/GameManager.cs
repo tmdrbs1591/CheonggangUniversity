@@ -12,7 +12,10 @@ public class GameManager : MonoBehaviour
     public GameObject interactionUI;
     public GameObject riderBossHpSlider;
     public GameObject riderBossBaseHpSlider;
+    public GameObject hackerBossHpSlider;
+    public GameObject hackerBossBaseHpSlider;
     public RiderBoss riderboss;
+    public HackerBoss hackerBoss;
 
     public GameObject hackingProgram;
 
@@ -30,5 +33,13 @@ public class GameManager : MonoBehaviour
         riderBossHpSlider.SetActive(true);
         riderBossBaseHpSlider.SetActive(true);
         riderboss.isBattle = true;  
+    }
+
+    public void HakcerBossHpSliderActive()
+    {
+        hackerBossHpSlider.SetActive(true);
+        hackerBossBaseHpSlider.SetActive(true);
+        hackerBoss.isBattle = true;
+
     }
 }
