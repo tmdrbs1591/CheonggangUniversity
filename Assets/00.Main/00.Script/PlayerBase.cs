@@ -399,6 +399,27 @@ public class PlayerBase : MonoBehaviour
 
                 break;
             }
+            else if (collider != null && collider.CompareTag("SpecialChest"))
+            {
+                if (collider.GetComponent<SpecialChest>().isOpen)
+                    return;
+
+                npcFound = true;
+
+                GameManager.instance.interactionUI.SetActive(true);
+                GameManager.instance.interactionUI.transform.position = collider.transform.position + new Vector3(0, 1, 0);
+                GameManager.instance.interactionUI.transform.Find("Text").GetComponent<TMP_Text>().text = "열기";
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    collider.GetComponent<SpecialChest>().Open();
+                    GameManager.instance.interactionUI.SetActive(false);
+
+                    return;
+                }
+
+                break;
+            }
         }
 
         if (!npcFound)

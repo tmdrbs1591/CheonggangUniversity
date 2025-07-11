@@ -14,6 +14,7 @@ public class Hacking : MonoBehaviour
 
     public bool active;
     public bool complete;
+    public bool allcomple;
 
     private void OnEnable()
     {
@@ -37,9 +38,12 @@ public class Hacking : MonoBehaviour
     }
     void IndexMove()
     {
+        if (allcomple)
+            return;
         if (Input.GetKeyDown(KeyCode.A))
         {
             currentIndex--;
+            AudioManager.instance?.PlaySound(transform.position, "Hacking", UnityEngine.Random.Range(1f, 1.1f), 1f);
             if (currentIndex < 0)
             {
                 currentIndex = 4;
@@ -49,7 +53,8 @@ public class Hacking : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
         {
             currentIndex++;
-            if (currentIndex > 4)
+            AudioManager.instance?.PlaySound(transform.position, "Hacking", UnityEngine.Random.Range(1f, 1.1f), 1f);
+            if (currentIndex >= hackSprite.Length)
             {
                 currentIndex = 0;
             }

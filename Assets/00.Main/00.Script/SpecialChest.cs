@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class SpecialChest : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isOpen = false;
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite openSprite;
+    [SerializeField] private GameObject skill;
+    private void Start()
     {
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
+    public void Open()
+    {
+        spriteRenderer.sprite = openSprite;
+        Instantiate(skill, transform.position, Quaternion.identity);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        isOpen = true;
     }
+    
 }

@@ -12,6 +12,7 @@ TagManager:
   - StoneButton
   - Chest
   - Hacking
+  - SpecialChest
   layers:
   - Default
   - TransparentFX

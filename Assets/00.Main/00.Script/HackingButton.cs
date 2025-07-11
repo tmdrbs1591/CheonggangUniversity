@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class HackingButton : MonoBehaviour, Interaction
 {
+    [SerializeField] public GameObject hackingProgram;
+    public HackingManager hackingManager;
     public void EventStart()
-    {
-        GameManager.instance.hackingProgram.SetActive(true);
+    {if (hackingManager.isAlreadyComplete)
+            return;
+       hackingProgram.SetActive(true);
+        TimeLineManager.instance.isCutScene = true;
     }
 }

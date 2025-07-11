@@ -5,14 +5,17 @@ using UnityEngine;
 public class HackingManager : MonoBehaviour
 {
     [SerializeField] private Hacking[] hakingList;
+    [SerializeField] private HackingButton hakingButton;
     [SerializeField] private int currentIndex;
 
     [SerializeField] GameObject completeGo;
+    [SerializeField] Door door;
 
 
     private void OnEnable()
     {
         isAlreadyComplete = false;
+
         // 시작 시 하나만 활성화
         for (int i = 0; i < hakingList.Length; i++)
         {
@@ -23,6 +26,12 @@ public class HackingManager : MonoBehaviour
     {
         HakingListMove();
         CheckAllComplete();
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            TimeLineManager.instance.isCutScene = false;
+            hakingButton.hackingProgram.SetActive(false);
+        }
     }
 
     public void HakingListMove()
@@ -31,7 +40,7 @@ public class HackingManager : MonoBehaviour
         {
             // 현재 항목 비활성화
             hakingList[currentIndex].active = false;
-
+            AudioManager.instance?.PlaySound(transform.position, "Hacking", UnityEngine.Random.Range(1f, 1.1f), 1f);
             currentIndex--;
             if (currentIndex < 0)
             {
@@ -45,7 +54,7 @@ public class HackingManager : MonoBehaviour
         {
             // 현재 항목 비활성화
             hakingList[currentIndex].active = false;
-
+            AudioManager.instance?.PlaySound(transform.position, "Hacking", UnityEngine.Random.Range(1f, 1.1f), 1f);
             currentIndex++;
             if (currentIndex >= hakingList.Length)
             {
@@ -57,7 +66,7 @@ public class HackingManager : MonoBehaviour
         }
     }
 
-    private bool isAlreadyComplete = false; // 이미 완료되었는지 체크용
+    public bool isAlreadyComplete = false; // 이미 완료되었는지 체크용
 
     private void CheckAllComplete()
     {
@@ -74,10 +83,15 @@ public class HackingManager : MonoBehaviour
 
         completeGo.SetActive(allComplete);
 
-        // 모든 complete가 true일 때 딱 한 번만 cor = false 실행
         if (allComplete && !isAlreadyComplete)
         {
             isAlreadyComplete = true;
+
+            foreach (var hacking in hakingList)
+            {
+                hacking.allcomple = true;
+            }
+
             StartCoroutine(Cor_Flase());
         }
     }
@@ -85,7 +99,12 @@ public class HackingManager : MonoBehaviour
 
     IEnumerator Cor_Flase()
     {
+        StartCoroutine(door.Cor_DoorOpen());
         yield return new WaitForSeconds(2f);
-        GameManager.instance.hackingProgram.SetActive(false);
+        TimeLineManager.instance.isCutScene = false;
+        hakingButton.hackingProgram.SetActive(false);
     }
+
+   
+
 }
