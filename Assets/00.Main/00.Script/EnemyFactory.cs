@@ -3,14 +3,16 @@ public enum EnemyType
 {
     Robot,
     Drone,
-    LightningDrone
+    LightningDrone,
+    LightningRobot
 }
 
 public class EnemyFactory : MonoBehaviour
 {
     [SerializeField] private GameObject robotPrefab;
     [SerializeField] private GameObject dronePrefab;
-    [SerializeField] private GameObject lightningDroneDronePrefab;
+    [SerializeField] private GameObject lightningDronePrefab;
+    [SerializeField] private GameObject lightningRobotPrefab;
 
     public EnemyBase CreateEnemy(EnemyType type, Vector3 position)
     {
@@ -25,7 +27,10 @@ public class EnemyFactory : MonoBehaviour
                 prefab = dronePrefab;
                 break;
             case EnemyType.LightningDrone:
-                prefab = lightningDroneDronePrefab;
+                prefab = lightningDronePrefab;
+                break;
+            case EnemyType.LightningRobot:
+                prefab = lightningRobotPrefab;
                 break;
         }
 
