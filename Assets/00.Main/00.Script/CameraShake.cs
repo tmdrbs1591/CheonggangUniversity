@@ -34,7 +34,14 @@ public class CameraShake : MonoBehaviour
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 10;
         shakeTimer = 3;
     }
+    public void ShakeBreakCameraMain()
+    {
+        CinemachineBasicMultiChannelPerlin cinemachineVirtualCamera =
+            cinemachineBreakVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
+        cinemachineVirtualCamera.m_AmplitudeGain = 10;
+        shakeTimer = 3;
+    }
     private void Update()
     {
         if (shakeTimer > 0)

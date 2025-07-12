@@ -242,6 +242,7 @@ public class RiderBoss : EnemyBase
         AudioManager.instance?.PlaySound(transform.position, "EnemyDie", Random.Range(1.4f, 1.4f), 1f);
         AudioManager.instance?.PlaySound(transform.position, "Boom", Random.Range(1f, 1.1f), 1f);
         OnDeath?.Invoke(this);
+        SongManager.instance.SongChange(0);
 
         Destroy(door);
         yield return new WaitForSecondsRealtime(2.2f);
