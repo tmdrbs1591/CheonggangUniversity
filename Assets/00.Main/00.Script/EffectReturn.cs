@@ -6,6 +6,7 @@ using UnityEngine;
 public class EffectReturn : MonoBehaviour
 {
     [SerializeField] private string name;
+    public float time = 2f;
 
     private void OnEnable()
     {
@@ -13,7 +14,7 @@ public class EffectReturn : MonoBehaviour
     }
     IEnumerator Cor_ReturnToPool(string nm)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(time);
         ObjectPool.ReturnToPool(name, gameObject);
     }
 }

@@ -12,6 +12,7 @@ public class ElectricBoss : EnemyBase
     private float targetValue = 1f;
     private bool isDashing = false;
     public bool isBattle = false;
+    [SerializeField] GameObject[] dangerLines;
 
 
     public Door door;
@@ -20,6 +21,7 @@ public class ElectricBoss : EnemyBase
         baseHpSlider.gameObject.SetActive(false);
         SetHP();
         base.Start();
+        StartCoroutine(Cor_Attack()); // 예시: 첫 공격 시작
 
     }
 
@@ -37,7 +39,6 @@ public class ElectricBoss : EnemyBase
 
      
             FollowPlayer(); // 예시: 움직임 시작
-            StartCoroutine(Cor_Attack()); // 예시: 첫 공격 시작
     }
 
 
@@ -54,12 +55,79 @@ public class ElectricBoss : EnemyBase
 
     protected override IEnumerator Cor_Attack()
     {
+        if (dangerLines.Length == 0)
+            yield break;
 
         currentCoolTime = attackCoolTime;
 
+        attackCount++;
+
+        if (attackCount >= 5)
+        {
+            // 전 범위 공격
+            foreach (var line in dangerLines)
+            {
+                if (line == null) continue;
+
+                line.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(0.5f); // 경고 시간
+
+            foreach (var line in dangerLines)
+            {
+                if (line == null) continue;
+
+                line.SetActive(false);
+
+                Vector3 spawnPos = line.transform.position;
+                GameObject bulletObj = ObjectPool.SpawnFromPool("ElectricEffect", spawnPos);
+
+                if (bulletObj != null)
+                {
+                    Vector2 shootDir = Vector2.down;
+                    Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+                    if (bulletRb != null)
+                    {
+                        bulletRb.velocity = shootDir * bulletSpeed;
+                    }
+
+                    float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+                    bulletObj.transform.rotation = Quaternion.Euler(0, 0,   0);
+                }
+            }
+
+            attackCount = 0; // 카운트 초기화
+        }
+        else
+        {
+            // 랜덤 한 곳만 공격
+            int randIndex = Random.Range(0, dangerLines.Length);
+            GameObject targetLine = dangerLines[randIndex];
+
+            targetLine.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            targetLine.SetActive(false);
+
+            Vector3 spawnPos = targetLine.transform.position;
+            GameObject bulletObj = ObjectPool.SpawnFromPool("ElectricEffect", spawnPos);
+
+            if (bulletObj != null)
+            {
+                Vector2 shootDir = Vector2.down;
+                Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+                if (bulletRb != null)
+                {
+                    bulletRb.velocity = shootDir * bulletSpeed;
+                }
+
+                float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+                bulletObj.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
         yield return new WaitForSeconds(1f);
     }
-
 
 
     public void SetHP()
